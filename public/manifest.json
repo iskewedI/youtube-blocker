@@ -1,25 +1,35 @@
 {
+  "manifest_version": 2,
+  "version": "1.0.2",
+  "description": "xzd",
+  "author": "people",
   "short_name": "React App",
   "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+  "icons": {
+    "16": "favicon.ico",
+    "48": "favicon.ico",
+    "128": "favicon.ico"
+  },
+  "browser_action": {
+    "browser_style": true,
+    "default_icon": {
+      "16": "favicon.ico",
+      "32": "favicon.ico"
     },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+    "default_title": "Whereami?",
+    "default_popup": "index.html",
+    "theme_icons": [
+      {
+        "light": "favicon.ico",
+        "dark": "favicon.ico",
+        "size": 16
+      },
+      {
+        "light": "favicon.ico",
+        "dark": "favicon.ico",
+        "size": 32
+      }
+    ]
+  },
+  "content_security_policy": "script-src 'self' 'sha256-Ep0x7th6GUrYq/46rMrN6UvFJT6uQV3NqlGR6Cnt9T8='; object-src 'self'"
 }
