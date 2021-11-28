@@ -31,7 +31,6 @@
       }
     ]
   },
-  "content_security_policy": "script-src 'self' 'sha256-Ep0x7th6GUrYq/46rMrN6UvFJT6uQV3NqlGR6Cnt9T8='; object-src 'self'",
   "optional_permissions": [
     "http://www.youtube.com/*",
     "https://www.youtube.com/*"
