@@ -9,10 +9,3 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-/* Common classes */
-.unestiled {
-  padding: 0;
-  border: none;
-  background-color: transparent;
-}
