@@ -1,12 +1,5 @@
-import React from 'react';
-import TagCollectionController from './components/common/Tags/TagCollectionController';
-
 function App() {
-  return (
-    <div>
-      <TagCollectionController />
-    </div>
-  );
+  return <div>Hello World</div>;
 }
 
 export default App;
