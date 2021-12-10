@@ -15,7 +15,7 @@ const Tag = ({ title, onClick }: ITagProps) => {
   return (
     <span className={styles.container}>
       {title}
-      <button className={`unestiled ${styles.deleteIcon}`} onClick={onClick}>
+      <button className={`unstyled ${styles.deleteIcon}`} onClick={onClick}>
         <DeleteIcon />
       </button>
     </span>

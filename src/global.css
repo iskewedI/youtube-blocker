@@ -24,7 +24,7 @@ body {
 }
 
 /* --------------  Utility classes --------------  */
-.unestiled {
+.unstyled {
   padding: 0;
   border: none;
   background-color: transparent;
