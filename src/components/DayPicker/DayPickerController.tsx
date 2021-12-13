@@ -10,6 +10,7 @@ const DayPickerController = () => {
     { id: uuid(), title: 'Th', active: true },
     { id: uuid(), title: 'Fr', active: true },
     { id: uuid(), title: 'Sa', active: true },
+    { id: uuid(), title: 'Su', active: true },
   ]);
 
   const handleDayClick = (id: string) => {
