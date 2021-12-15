@@ -1,4 +1,3 @@
-import React from 'react';
 import CrossSVG from '../../../misc/images/Cross.svg';
 
 const DeleteIcon = ({ width = 12 }) => {
