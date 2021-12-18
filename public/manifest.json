@@ -40,5 +40,15 @@
   ],
   "permissions": [
     "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "static/js/blockPage.js"
+      ]
+    }
   ]
 }
