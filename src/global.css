@@ -1,4 +1,7 @@
 /* --------------  Global --------------  */
+:root {
+  --color-primary: rgb(248, 248, 248);
+}
 
 *,
 *::after,
@@ -21,6 +24,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 2.4rem;
   line-height: 1.5;
+  color: var(--color-primary);
 }
 
 /* --------------  Utility classes --------------  */
