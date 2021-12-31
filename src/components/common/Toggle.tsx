@@ -6,9 +6,15 @@ export interface IToggleProp {
   options: string[];
   defaultActive?: Number;
   onChange?: (current: Number) => void;
+  containerClass?: string;
 }
 
-const Toggle = ({ options, defaultActive = 0, onChange }: IToggleProp) => {
+const Toggle = ({
+  options,
+  defaultActive = 0,
+  onChange,
+  containerClass = '',
+}: IToggleProp) => {
   const [active, setActive] = useState(defaultActive);
 
   const handleChange = (index: Number) => {
@@ -18,7 +24,7 @@ const Toggle = ({ options, defaultActive = 0, onChange }: IToggleProp) => {
   };
 
   return (
-    <div>
+    <div className={containerClass}>
       {options.map((title, index) => (
         <Button
           classes={`${styles.toggle} ${(index === active && styles.toggleActive) || ''}`}
