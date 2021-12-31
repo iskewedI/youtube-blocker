@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  white-space: nowrap;
+}
+
+.profilesContainer {
+  flex-grow: 1;
+  overflow: hidden;
+}
