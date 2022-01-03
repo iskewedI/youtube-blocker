@@ -1,9 +1,15 @@
 .container {
   display: flex;
   white-space: nowrap;
+  padding: 0.5rem;
 }
 
 .profilesContainer {
   flex-grow: 1;
   overflow: hidden;
+  display: flex;
+}
+
+.buttonsContainer {
+  display: inline-flex;
 }
