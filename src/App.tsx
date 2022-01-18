@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 function App() {
   return (
     <div className={styles.appContainer}>
-      <Navbar profiles={['Study', 'Work']} />
+      <Navbar profiles={['Study', 'Work', 'Entertainment', 'Music']} />
     </div>
   );
 }
