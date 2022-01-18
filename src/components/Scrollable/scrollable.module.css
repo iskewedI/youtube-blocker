@@ -1,0 +1,11 @@
+.container {
+  position: relative;
+}
+
+.rightArrow {
+  right: 0;
+}
+
+.arrowsButtons {
+  height: 90%;
+}
