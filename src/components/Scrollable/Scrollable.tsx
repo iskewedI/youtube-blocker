@@ -146,19 +146,25 @@ const Scrollable = ({
     []
   );
 
-  const setDOMInfo = (childrenRefs: React.RefObject<Element>[]): void => {
-    let checkInterval: NodeJS.Timeout;
+  const setDOMInfo = useCallback(
+    (childrenRefs: React.RefObject<Element>[]): void => {
+      let checkInterval: NodeJS.Timeout;
 
-    checkInterval = setInterval(() => {
-      if (childrenRefs[0] && childrenRefs[0].current && containerRef.current) {
-        const { pagesCount, itemsWidth } = getDOMData(childrenRefs, containerRef.current);
+      checkInterval = setInterval(() => {
+        if (childrenRefs[0] && childrenRefs[0].current && containerRef.current) {
+          const { pagesCount, itemsWidth } = getDOMData(
+            childrenRefs,
+            containerRef.current
+          );
 
-        setScrollState(state => ({ ...state, pagesCount, itemsWidth }));
+          setScrollState(state => ({ ...state, pagesCount, itemsWidth }));
 
-        clearInterval(checkInterval);
-      }
-    }, 50);
-  };
+          clearInterval(checkInterval);
+        }
+      }, 50);
+    },
+    [setScrollState, getDOMData, containerRef]
+  );
 
   useLayoutEffect(() => {
     const childrenRefs: React.RefObject<Element>[] = [];
@@ -190,7 +196,13 @@ const Scrollable = ({
     setDOMInfo(childrenRefs);
 
     mapped && setMappedChildren(mapped);
-  }, [children, scrollState.isScrolling, scrollState.itemsOffset]);
+  }, [
+    children,
+    scrollState.isScrolling,
+    scrollState.itemsOffset,
+    slideTimeMs,
+    setDOMInfo,
+  ]);
 
   return (
     <React.Fragment>
