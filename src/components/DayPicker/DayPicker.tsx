@@ -1,5 +1,6 @@
 import Day from './Day';
 import styles from './day_picker.module.css';
+import { uuid } from '../../service/utils';
 
 export interface IDay {
   title: string;
@@ -17,6 +18,7 @@ const DayPicker = ({ onDayClick, days }: DayPickerProps) => {
     <div style={{ display: 'flex' }}>
       {days.map(day => (
         <Day
+          key={uuid()}
           title={day.title}
           classes={day.active ? styles['day--active'] : ''}
           onClick={() => onDayClick(day.id)}
