@@ -2,10 +2,22 @@
   position: relative;
 }
 
+.arrow {
+  position: absolute;
+  height: 100%;
+  z-index: 1000;
+}
+
 .rightArrow {
   right: 0;
 }
 
-.arrowsButtons {
+.arrowBtn {
+  background-color: #2c2c2c;
+  opacity: 1;
   height: 90%;
+}
+
+.arrowBtn:hover {
+  opacity: 1;
 }

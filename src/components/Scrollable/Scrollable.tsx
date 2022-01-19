@@ -60,6 +60,7 @@ const Scrollable = ({
     itemsWidth: 0,
   });
   const [mappedChildren, setMappedChildren] = useState<React.ReactNode[]>([]);
+  const [isHover, setIsHover] = useState(false);
 
   const { currentPage, pagesCount } = scrollState;
 
@@ -206,32 +207,34 @@ const Scrollable = ({
 
   return (
     <React.Fragment>
-      {canScrollLeft && (
-        <div>
-          <Button
-            onClick={() => handleBtnScroll(Direction.Left)}
-            classes={styles.arrowsButtons}
-          >
-            <ArrowIcon width={15} height={15} />
-          </Button>
-        </div>
-      )}
       <div
         id={CHILDREN_CONTAINER_ID}
         className={`${containerClasses} ${styles.container}`}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
       >
+        {canScrollLeft && isHover && (
+          <div className={styles.arrow}>
+            <Button
+              onClick={() => handleBtnScroll(Direction.Left)}
+              classes={styles.arrowBtn}
+            >
+              <ArrowIcon width={10} height={10} />
+            </Button>
+          </div>
+        )}
         {mappedChildren}
+        {canScrollRight && isHover && (
+          <div className={`${styles.arrow} ${styles.rightArrow}`}>
+            <Button
+              onClick={() => handleBtnScroll(Direction.Right)}
+              classes={styles.arrowBtn}
+            >
+              <ArrowIcon direction={Direction.Right} width={10} height={10} />
+            </Button>
+          </div>
+        )}
       </div>
-      {canScrollRight && (
-        <div className={styles.rightArrow}>
-          <Button
-            onClick={() => handleBtnScroll(Direction.Right)}
-            classes={styles.arrowsButtons}
-          >
-            <ArrowIcon direction={Direction.Right} width={15} height={15} />
-          </Button>
-        </div>
-      )}
     </React.Fragment>
   );
 };
