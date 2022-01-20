@@ -1,4 +1,10 @@
-import React, { CSSProperties, useCallback, useLayoutEffect, useState } from 'react';
+import React, {
+  CSSProperties,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { uuid } from '../../service/utils';
 import Button from '../common/Button';
 import ArrowIcon, { Direction } from '../common/icons/ArrowIcon';
@@ -10,10 +16,6 @@ interface DOMData {
   pagesCount: number;
 }
 
-interface IRefObject {
-  ref?: React.RefObject<Element>;
-}
-
 export enum IScrollableType {
   Vertical = 1,
   Horizontal,
@@ -21,6 +23,7 @@ export enum IScrollableType {
 
 interface IScrollableChildren {
   style?: CSSProperties;
+  ref?: React.RefObject<Element>;
 }
 
 interface IScrollState {
@@ -66,6 +69,10 @@ const Scrollable = ({
 
   const canScrollLeft = currentPage > 0;
   const canScrollRight = currentPage < pagesCount;
+
+  const childrenRefs = useRef<React.RefObject<Element>[]>(
+    Array.from(React.Children.toArray(children), () => React.createRef<Element>())
+  );
 
   const handleBtnScroll = (direction: Direction) => {
     const { isScrolling, itemsOffset, currentPage, itemsWidth } = scrollState;
@@ -168,33 +175,31 @@ const Scrollable = ({
   );
 
   useLayoutEffect(() => {
-    const childrenRefs: React.RefObject<Element>[] = [];
+    const refsObject: React.RefObject<Element>[] = [];
 
-    const mapped = React.Children.map(children, child => {
+    const mapped = React.Children.map(children, (child, index) => {
       if (!React.isValidElement<IScrollableChildren>(child)) {
         return child;
       }
 
-      const elementChild: React.ReactElement & IRefObject = child;
-
       const style: React.CSSProperties = {
         transition: `transform ${slideTimeMs}ms ease-in-out`,
       };
+
       if (scrollState.itemsOffset.x) {
         style.transform = `translateX(${scrollState.itemsOffset.x}px)`;
       }
 
-      if (elementChild.ref) {
-        childrenRefs.push(elementChild.ref);
-      }
+      refsObject.push(childrenRefs.current[index]);
 
       return React.cloneElement(child, {
         style,
+        ref: childrenRefs.current[index],
         ...child.props,
       });
     });
 
-    setDOMInfo(childrenRefs);
+    setDOMInfo(refsObject);
 
     mapped && setMappedChildren(mapped);
   }, [

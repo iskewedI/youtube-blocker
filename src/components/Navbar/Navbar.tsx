@@ -19,10 +19,6 @@ const Navbar = ({ profiles }: INavbarProps) => {
 
   const containerRef = createRef<HTMLDivElement>();
 
-  const buttonsRefs = useRef<React.RefObject<HTMLButtonElement>[]>(
-    Array.from(profiles, () => React.createRef<HTMLButtonElement>())
-  );
-
   return (
     <div className={styles.container} ref={containerRef}>
       <Scrollable containerClasses={styles.profilesContainer} containerRef={containerRef}>
@@ -34,7 +30,6 @@ const Navbar = ({ profiles }: INavbarProps) => {
             }`}
             title={title}
             onClick={() => handleChange(index)}
-            ref={buttonsRefs.current[index]}
           />
         ))}
       </Scrollable>
