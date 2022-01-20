@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef } from 'react';
+import { useState, createRef } from 'react';
 import Button from '../common/Button';
 import SettingsIcon from '../common/icons/SettingsIcon';
 import TimerIcon from '../common/icons/TimerIcon';
