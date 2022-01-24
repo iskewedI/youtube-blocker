@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { CSSProperties, ReactElement } from 'react';
 import styles from './common.module.css';
 
 export interface IButtonProps {
@@ -6,15 +6,23 @@ export interface IButtonProps {
   onClick?: () => void;
   classes?: string;
   children?: ReactElement;
+  style?: CSSProperties;
 }
 
-const Button = ({ classes = '', title = '', children, onClick }: IButtonProps) => {
-  return (
-    <button className={`${styles.btn} ${classes}`} onClick={onClick}>
-      {title}
-      {children}
-    </button>
-  );
-};
+const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
+  ({ style, classes = '', title = '', children, onClick }: IButtonProps, ref) => {
+    return (
+      <button
+        style={style}
+        className={`${styles.btn} ${classes}`}
+        onClick={onClick}
+        ref={ref}
+      >
+        {title}
+        {children}
+      </button>
+    );
+  }
+);
 
 export default Button;
