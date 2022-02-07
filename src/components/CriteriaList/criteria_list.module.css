@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  margin: 0 1rem 1rem;
+  text-align: center;
+}
+
+.title {
+  width: 100%;
+  background-color: black;
+  font-size: 1.5rem;
+  padding: 0.7rem;
+}
+
+.allowListBtn {
+  background-color: rgb(3, 184, 3);
+}
+
+.blockListBtn {
+  background-color: rgb(201, 6, 6);
+}
+
+.btnIcons {
+  /* vertical-align: middle; */
+}
+
+.inputContainer {
+  display: inline-flex;
+  height: 100%;
+  gap: 0.5rem;
+  align-items: center;
+}
