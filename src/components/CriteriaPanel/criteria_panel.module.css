@@ -1,0 +1,46 @@
+.container {
+  padding: 0 1rem;
+}
+
+.innerContainer {
+  background-color: black;
+}
+
+.criteriaTypeContainer {
+  display: flex;
+  background-color: #353535;
+  white-space: nowrap;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.criteriaType {
+  background-color: #444444;
+  flex-grow: 1;
+  box-shadow: inset 0px 1px 2px 0.5px #626161eb;
+  padding: 0.5rem 1.5rem;
+  width: 129px;
+  max-width: 129px;
+  min-width: 129px;
+}
+
+.criteriaTypeActive {
+  background-color: #fff;
+  color: black;
+}
+.criteriaTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.8rem;
+}
+
+.tagCollectionContainer {
+  padding: 0.9rem 1rem 0;
+}
+
+.doneBtn {
+  background-color: #be0000;
+  width: 100%;
+  margin: 1rem auto 0;
+  padding: 0.5rem 2rem 1rem;
+}
