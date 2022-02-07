@@ -1,24 +1,27 @@
-import DeleteIcon from '../common/icons/DeleteIcon';
+import CrossIcon from '../common/icons/CrossIcon';
 import styles from './tags.module.css';
 
 export interface ITagProps {
   title: string;
+  isHovering: boolean;
   onClick: () => void;
+  onHover: (isHover: boolean) => void;
 }
 
-export interface ITag {
-  id: string;
-  title: string;
-}
-
-const Tag = ({ title, onClick }: ITagProps) => {
+const Tag = ({ title, isHovering, onClick, onHover }: ITagProps) => {
   return (
-    <span className={styles.container}>
-      {title}
-      <button className={`unstyled ${styles.deleteIcon}`} onClick={onClick}>
-        <DeleteIcon />
-      </button>
-    </span>
+    <div
+      className={styles.tag}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
+    >
+      <div className={styles.tagTitle}>{title}</div>
+      {isHovering && (
+        <button className={`${styles.deleteIcon}`} onClick={onClick}>
+          <CrossIcon width={8} height={8} />
+        </button>
+      )}
+    </div>
   );
 };
 
