@@ -11,16 +11,17 @@
   padding: 0.7rem;
 }
 
+.listBtn {
+  width: 70px;
+  height: 44px;
+}
+
 .allowListBtn {
   background-color: rgb(3, 184, 3);
 }
 
 .blockListBtn {
   background-color: rgb(201, 6, 6);
-}
-
-.btnIcons {
-  /* vertical-align: middle; */
 }
 
 .inputContainer {

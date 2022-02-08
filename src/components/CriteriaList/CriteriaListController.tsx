@@ -95,25 +95,25 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
 
   const { title, buttonsClasses } =
     type === CriteraListType.Allow
-      ? { title: 'Allow', buttonsClasses: styles.allowListBtn }
-      : { title: 'Block', buttonsClasses: styles.blockListBtn };
+      ? { title: 'Allow', buttonsClasses: `${styles.listBtn} ${styles.allowListBtn}` }
+      : { title: 'Block', buttonsClasses: `${styles.listBtn} ${styles.blockListBtn}` };
 
   const buttons = [
     {
       classes: buttonsClasses,
       content: !isAdding ? (
-        <ListIcon width={16} height={16} classes={styles.btnIcons} />
+        <ListIcon width={20} height={20} />
       ) : (
-        <CrossIcon width={13} height={13} classes={styles.btnIcons} />
+        <CrossIcon width={18} height={18} />
       ),
       onClick: !isAdding ? onEdit : handleFormCancel,
     },
     {
       classes: buttonsClasses,
       content: !isAdding ? (
-        <PlusIcon width={18} height={18} classes={styles.btnIcons} />
+        <PlusIcon width={20} height={20} />
       ) : (
-        <TickIcon width={16} height={16} classes={styles.btnIcons} />
+        <TickIcon width={20} height={20} />
       ),
       onClick: !isAdding ? () => toggleAdding(true) : handleFormSubmit,
     },
