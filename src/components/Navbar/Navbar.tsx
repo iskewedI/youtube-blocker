@@ -40,8 +40,8 @@ const Navbar = ({ profiles }: INavbarProps) => {
       </Scrollable>
 
       <div className={styles.buttonsContainer}>
-        <Button children={<TimerIcon width={24} />} />
-        <Button children={<SettingsIcon width={24} />} />
+        <Button classes={styles.navbarBtn} children={<TimerIcon width={20} />} />
+        <Button classes={styles.navbarBtn} children={<SettingsIcon width={20} />} />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-flow: wrap;
+  align-content: flex-start;
   height: 128px;
   overflow-y: auto;
   gap: 0.5rem;
@@ -34,7 +35,7 @@
   padding: 0.2rem 1rem;
   position: relative;
   max-width: 130px;
-  max-height: 40px;
+  height: 35px;
 }
 
 .tagTitle {

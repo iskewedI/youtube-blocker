@@ -1,4 +1,12 @@
 .container {
   background-color: #353535;
-  padding: 1rem;
+  padding-top: 1.4rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  padding-bottom: 1.4rem;
+  margin: 0.6rem;
+}
+
+.daysContainer {
+  box-shadow: 0 4px 5px 1px #272727;
 }

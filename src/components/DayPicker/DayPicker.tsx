@@ -11,11 +11,12 @@ export interface IDay {
 export interface DayPickerProps {
   onDayClick: (id: string) => void;
   days: IDay[];
+  containerClasses?: string;
 }
 
-const DayPicker = ({ onDayClick, days }: DayPickerProps) => {
+const DayPicker = ({ onDayClick, days, containerClasses = '' }: DayPickerProps) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex' }} className={containerClasses}>
       {days.map(day => (
         <Day
           key={uuid()}

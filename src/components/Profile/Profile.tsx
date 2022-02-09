@@ -25,8 +25,9 @@ const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
           onEdit={() => onCriteriaEdit(criteria.id)}
         />
       ))}
-
-      <DayPickerController />
+      <div className={styles.dateTimerContainer}>
+        <DayPickerController classes={styles.daysContainer} />
+      </div>
     </div>
   );
 };

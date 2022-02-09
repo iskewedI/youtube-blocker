@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { uuid } from '../../service/utils';
 import DayPicker, { IDay } from './DayPicker';
 
-const DayPickerController = () => {
+interface IDayPickerControllerProps {
+  classes?: string;
+}
+
+const DayPickerController = ({ classes }: IDayPickerControllerProps) => {
   const [days, setDays] = useState<IDay[]>([
     { id: uuid(), title: 'Mo', active: false },
     { id: uuid(), title: 'Tu', active: true },
@@ -25,7 +29,7 @@ const DayPickerController = () => {
     setDays(newDays);
   };
 
-  return <DayPicker days={days} onDayClick={handleDayClick} />;
+  return <DayPicker days={days} onDayClick={handleDayClick} containerClasses={classes} />;
 };
 
 export default DayPickerController;
