@@ -6,12 +6,14 @@ interface ITagGroupControllerProps {
   startTags?: ITag[];
   onTagRemove?: (id: string) => void;
   containerClasses?: string;
+  tagsClasses?: string;
 }
 
 const TagGroupController = ({
   startTags = [],
   onTagRemove,
   containerClasses,
+  tagsClasses,
 }: ITagGroupControllerProps) => {
   const [tags, setTags] = useState(startTags);
 
@@ -39,6 +41,7 @@ const TagGroupController = ({
       tags={tags}
       onTagRemove={handleTagRemove}
       containerClasses={containerClasses}
+      tagsClasses={tagsClasses}
     />
   );
 };

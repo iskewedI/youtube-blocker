@@ -11,6 +11,7 @@ export interface IProfilerControllerProps {
 interface IProfileState {
   isEditing: boolean;
   editingProfileId: string | null;
+  editingProfileType: CriteraListType | null;
 }
 
 const criterias = [
@@ -22,18 +23,34 @@ const ProfileController = ({ id }: IProfilerControllerProps) => {
   const [profileState, setProfileState] = useState<IProfileState>({
     isEditing: false,
     editingProfileId: null,
+    editingProfileType: null,
   });
 
   const handleDoneEditing = () => {
-    setProfileState(state => ({ ...state, isEditing: false, editingProfileId: null }));
+    setProfileState(state => ({
+      ...state,
+      isEditing: false,
+      editingProfileId: null,
+      editingProfileType: null,
+    }));
   };
 
-  const handleCriteriaEdit = (id: string) => {
-    setProfileState(state => ({ ...state, isEditing: true, editingProfileId: id }));
+  const handleCriteriaEdit = (id: string, type: CriteraListType) => {
+    setProfileState(state => ({
+      ...state,
+      isEditing: true,
+      editingProfileId: id,
+      editingProfileType: type,
+    }));
   };
 
   if (profileState.isEditing) {
-    return <CriteriaPanelController onDone={handleDoneEditing} />;
+    return (
+      <CriteriaPanelController
+        type={profileState.editingProfileType || CriteraListType.Allow}
+        onDone={handleDoneEditing}
+      />
+    );
   }
 
   return <Profile criterias={criterias} onCriteriaEdit={handleCriteriaEdit} />;

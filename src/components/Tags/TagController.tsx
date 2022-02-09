@@ -4,6 +4,7 @@ import Tag from './Tag';
 interface ITagControllerProps {
   title: string;
   onClick: () => void;
+  classes?: string;
 }
 
 export interface ITag {
@@ -18,7 +19,20 @@ const TagController = (props: ITagControllerProps) => {
     setIsHover(hover);
   };
 
-  return <Tag {...props} isHovering={isHover} onHover={handleHover} />;
+  const handleMouseOver = () => {
+    if (isHover) return;
+
+    setIsHover(true);
+  };
+
+  return (
+    <Tag
+      {...props}
+      isHovering={isHover}
+      onHover={handleHover}
+      onMoveOver={handleMouseOver}
+    />
+  );
 };
 
 export default TagController;

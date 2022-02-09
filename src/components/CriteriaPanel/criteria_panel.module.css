@@ -38,8 +38,24 @@
   padding: 0.9rem 1rem 0;
 }
 
+.allowTags {
+  background-color: #1f964f;
+}
+
+.blockTags {
+  background-color: #de2f2f;
+}
+
 .doneBtn {
   background-color: #be0000;
   width: 100%;
   padding: 0.5rem 2rem 1rem;
+}
+
+.allowDoneBtn {
+  background-color: #136936;
+}
+
+.blockDoneBtn {
+  background-color: #be0000;
 }

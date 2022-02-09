@@ -30,7 +30,6 @@
 }
 
 .tag {
-  background-color: #de2f2f;
   font-size: 1.8rem;
   padding: 0.2rem 1rem;
   position: relative;
@@ -52,9 +51,10 @@
   position: absolute;
   right: -5px;
   top: -5px;
-  background-color: #ff6060;
+  background-color: inherit;
+  filter: brightness(120%);
 }
 
 .deleteIcon:hover {
-  opacity: 1;
+  filter: brightness(150%);
 }

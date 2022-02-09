@@ -5,102 +5,35 @@ import Scrollable from '../Scrollable/Scrollable';
 import TagCollectionController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
 
-const criterias = [
-  {
-    name: 'Tags',
-    tags: [
-      { id: uuid(), title: '#videogames' },
-      { id: uuid(), title: '#history' },
-      { id: uuid(), title: '#bloopers' },
-      { id: uuid(), title: '#memes' },
-      { id: uuid(), title: '#callofduty' },
-      { id: uuid(), title: '#battlefield' },
-      { id: uuid(), title: '#games' },
-      { id: uuid(), title: '#trailers' },
-      { id: uuid(), title: '#starwars' },
-      { id: uuid(), title: '#got' },
-      { id: uuid(), title: '#trailers' },
-      { id: uuid(), title: '#starwars' },
-      { id: uuid(), title: '#got' },
-      { id: uuid(), title: '#trailers' },
-      { id: uuid(), title: '#starwars' },
-      { id: uuid(), title: '#got' },
-    ],
-    id: uuid(),
-  },
-  {
-    name: 'Titles',
-    tags: [
-      { id: uuid(), title: 'Veritasium' },
-      { id: uuid(), title: 'CdeCiencia' },
-      { id: uuid(), title: 'El Robot De Platón' },
-    ],
-    id: uuid(),
-  },
-  {
-    name: 'Channeles',
-    tags: [
-      { id: uuid(), title: 'Veritasium 3' },
-      { id: uuid(), title: 'CdeCiencia 3' },
-      { id: uuid(), title: 'El Robot De Platón 3' },
-    ],
-    id: uuid(),
-  },
-  {
-    name: 'Channeles2',
-    tags: [
-      { id: uuid(), title: 'Veritasium 4' },
-      { id: uuid(), title: 'CdeCiencia 4' },
-      { id: uuid(), title: 'El Robot De Platón 4' },
-    ],
-    id: uuid(),
-  },
-];
-
-interface ICriteriaChange {
-  added: string[];
-  removed: string[];
-}
-
-interface IChanges {
-  [id: string]: ICriteriaChange;
-}
-
 interface ICriteriaPanelProps {
-  onDone?: (changes: IChanges | undefined) => void;
+  criterias: {
+    name: string;
+    tags: {
+      id: string;
+      title: string;
+    }[];
+    id: string;
+  }[];
+  active: string;
+  onChangeCriteria: (id: string) => void;
+  onTagRemove: (id: string) => void;
+  onDone?: () => void;
+  doneBtnClasses?: string;
+  tagsClasses?: string;
 }
 
-const CriteriaPanel = ({ onDone }: ICriteriaPanelProps) => {
-  const [active, setActive] = useState<string>(criterias[0].id);
-  const [changes, setChanges] = useState<IChanges>();
-
+const CriteriaPanel = ({
+  criterias,
+  active,
+  onChangeCriteria,
+  onTagRemove,
+  onDone,
+  doneBtnClasses = '',
+  tagsClasses = '',
+}: ICriteriaPanelProps) => {
   const containerRef = createRef<HTMLDivElement>();
 
   const criteriaActive = criterias.find(criteria => criteria.id === active);
-
-  const onCriteriaRemove = (id: string) => {
-    const criteria = criterias.find(crit => crit.id === active);
-    if (criteria) {
-      criteria.tags = criteria.tags.filter(tag => tag.id !== id);
-    }
-
-    setChanges(lastChanges => {
-      const newChanges: ICriteriaChange =
-        lastChanges && lastChanges[active]
-          ? lastChanges[active]
-          : { added: [], removed: [] };
-
-      newChanges.removed.push(id);
-
-      return { ...lastChanges, [active]: newChanges };
-    });
-  };
-
-  const handleDone = () => {
-    if (onDone && typeof onDone === 'function') {
-      onDone(changes);
-    }
-  };
 
   return (
     <div ref={containerRef} className={styles.container}>
@@ -115,7 +48,7 @@ const CriteriaPanel = ({ onDone }: ICriteriaPanelProps) => {
             classes={`${styles.criteriaType} ${
               criteria.id === active ? styles.criteriaTypeActive : ''
             }`}
-            onClick={() => setActive(criteria.id)}
+            onClick={() => onChangeCriteria(criteria.id)}
             key={criteria.id}
             children={<div className={styles.criteriaTitle}>{criteria.name}</div>}
           />
@@ -124,10 +57,15 @@ const CriteriaPanel = ({ onDone }: ICriteriaPanelProps) => {
       <div className={styles.innerContainer}>
         <TagCollectionController
           startTags={criteriaActive?.tags}
-          onTagRemove={onCriteriaRemove}
+          onTagRemove={onTagRemove}
           containerClasses={styles.tagCollectionContainer}
+          tagsClasses={tagsClasses}
         />
-        <Button title='Done' onClick={handleDone} classes={styles.doneBtn} />
+        <Button
+          title='Done'
+          onClick={onDone}
+          classes={`${styles.doneBtn} ${doneBtnClasses}`}
+        />
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export interface ICriteriaList {
 
 interface IProfileProps {
   criterias: ICriteriaList[];
-  onCriteriaEdit: (id: string) => void;
+  onCriteriaEdit: (id: string, type: CriteraListType) => void;
 }
 
 const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
@@ -22,7 +22,7 @@ const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
         <CriteriaListController
           type={criteria.type}
           data={criteria.data}
-          onEdit={() => onCriteriaEdit(criteria.id)}
+          onEdit={() => onCriteriaEdit(criteria.id, criteria.type)}
         />
       ))}
       <div className={styles.dateTimerContainer}>
