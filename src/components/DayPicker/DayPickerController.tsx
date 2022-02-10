@@ -3,10 +3,10 @@ import { uuid } from '../../service/utils';
 import DayPicker, { IDay } from './DayPicker';
 
 interface IDayPickerControllerProps {
-  classes?: string;
+  enabled?: boolean;
 }
 
-const DayPickerController = ({ classes }: IDayPickerControllerProps) => {
+const DayPickerController = ({ enabled = true }: IDayPickerControllerProps) => {
   const [days, setDays] = useState<IDay[]>([
     { id: uuid(), title: 'Mo', active: false },
     { id: uuid(), title: 'Tu', active: true },
@@ -18,6 +18,8 @@ const DayPickerController = ({ classes }: IDayPickerControllerProps) => {
   ]);
 
   const handleDayClick = (id: string) => {
+    if (!enabled) return;
+
     const index = days.findIndex(day => day.id === id);
     if (index < 0)
       return console.error('Index not found in handleDayClick => ', index, days);
@@ -29,7 +31,7 @@ const DayPickerController = ({ classes }: IDayPickerControllerProps) => {
     setDays(newDays);
   };
 
-  return <DayPicker days={days} onDayClick={handleDayClick} containerClasses={classes} />;
+  return <DayPicker days={days} onDayClick={handleDayClick} enabled={enabled} />;
 };
 
 export default DayPickerController;

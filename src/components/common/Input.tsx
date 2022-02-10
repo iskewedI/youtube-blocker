@@ -7,6 +7,8 @@ export interface IInputProps {
   onSubmit?: (text: string) => void;
   autofocus?: boolean;
   inputClasses?: string;
+  startValue?: string;
+  formStyle?: React.CSSProperties;
 }
 
 const Input = ({
@@ -14,8 +16,10 @@ const Input = ({
   onSubmit,
   onChange,
   autofocus = false,
+  startValue = '',
+  formStyle,
 }: IInputProps) => {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(startValue);
 
   const handleChange = (value: string) => {
     setValue(value);
@@ -34,7 +38,7 @@ const Input = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={formStyle}>
       <input
         value={value}
         onChange={evt => handleChange(evt.target.value)}
