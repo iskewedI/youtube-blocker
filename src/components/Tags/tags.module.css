@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: wrap;
   align-content: flex-start;
-  height: 128px;
+  height: 166px;
   overflow-y: auto;
   gap: 0.5rem;
 
@@ -41,6 +41,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .deleteIcon {
