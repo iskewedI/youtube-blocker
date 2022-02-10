@@ -21,22 +21,27 @@ const Navbar = ({ profiles }: INavbarProps) => {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <Scrollable containerClasses={styles.profilesContainer} containerRef={containerRef}>
+      <Scrollable
+        containerClasses={styles.profilesContainer}
+        containerRef={containerRef}
+        itemsWidth={74}
+        itemsPerPage={4}
+      >
         {profiles.map((title, index) => (
           <Button
             key={uuid()}
             classes={`${styles.profile} ${
               (index === active && styles.profileActive) || ''
             }`}
-            title={title}
             onClick={() => handleChange(index)}
+            children={<div className={styles.profileTitle}>{title}</div>}
           />
         ))}
       </Scrollable>
 
       <div className={styles.buttonsContainer}>
-        <Button children={<TimerIcon width={24} />} />
-        <Button children={<SettingsIcon width={24} />} />
+        <Button classes={styles.navbarBtn} children={<TimerIcon width={20} />} />
+        <Button classes={styles.navbarBtn} children={<SettingsIcon width={20} />} />
       </div>
     </div>
   );

@@ -12,7 +12,6 @@ import styles from './scrollable.module.css';
 
 interface DOMData {
   containerWidth: number;
-  itemsWidth: number;
   pagesCount: number;
 }
 
@@ -34,7 +33,6 @@ interface IScrollState {
   };
   currentPage: number;
   pagesCount: number;
-  itemsWidth: number;
 }
 
 const CHILDREN_CONTAINER_ID = uuid();
@@ -44,6 +42,8 @@ export interface IScrollableProps {
   containerClasses?: string;
   slideTimeMs?: number;
   children: React.ReactNode;
+  itemsWidth: number;
+  itemsPerPage: number;
 }
 
 const Scrollable = ({
@@ -51,6 +51,8 @@ const Scrollable = ({
   containerClasses = '',
   slideTimeMs = 250,
   children,
+  itemsWidth,
+  itemsPerPage,
 }: IScrollableProps) => {
   const [scrollState, setScrollState] = useState<IScrollState>({
     isScrolling: false,
@@ -60,7 +62,6 @@ const Scrollable = ({
     },
     currentPage: 0,
     pagesCount: 0,
-    itemsWidth: 0,
   });
   const [mappedChildren, setMappedChildren] = useState<React.ReactNode[]>([]);
   const [isHover, setIsHover] = useState(false);
@@ -75,7 +76,7 @@ const Scrollable = ({
   );
 
   const handleBtnScroll = (direction: Direction) => {
-    const { isScrolling, itemsOffset, currentPage, itemsWidth } = scrollState;
+    const { isScrolling, itemsOffset, currentPage } = scrollState;
 
     if (isScrolling) return;
 
@@ -84,17 +85,19 @@ const Scrollable = ({
 
     if (direction === Direction.Left) {
       if (!canScrollLeft) return;
-      const distance = 3 * itemsWidth;
 
-      newOffset.x += distance;
+      const distance = itemsPerPage * itemsWidth;
+
+      newOffset.x = Math.round(newOffset.x + distance);
       newPage -= 1;
     }
 
     if (direction === Direction.Right) {
       if (!canScrollRight) return;
-      const distance = -3 * itemsWidth;
 
-      newOffset.x += distance;
+      const distance = -itemsPerPage * itemsWidth;
+
+      newOffset.x = newOffset.x + distance;
       newPage += 1;
     }
 
@@ -112,7 +115,6 @@ const Scrollable = ({
       const data: DOMData = {
         containerWidth: 0,
         pagesCount: 0,
-        itemsWidth: 0,
       };
 
       const childrenContainer = Array.from(container.children).find(
@@ -125,29 +127,25 @@ const Scrollable = ({
         data.containerWidth = containerInfo.width;
       }
 
-      const itemsWidth: number[] = [];
-
       let currentPageWidth = 0;
 
-      const totalPages = childrenRefs.reduce((previous, currentRef): number => {
-        if (!currentRef.current) return previous;
+      const totalPages = childrenRefs.reduce((currentPageNumber, currentRef): number => {
+        if (!currentRef.current) return currentPageNumber;
 
-        const info = currentRef.current.getBoundingClientRect();
+        const { width } = currentRef.current.getBoundingClientRect();
 
-        itemsWidth.push(info.width);
+        currentPageWidth += width;
 
-        currentPageWidth += info.width;
-
-        if (currentPageWidth >= data.containerWidth - 25) {
+        if (currentPageWidth >= data.containerWidth) {
           currentPageWidth = 0;
-          return previous + 1;
+
+          return currentPageNumber + 1;
         }
 
-        return previous;
+        return currentPageNumber;
       }, 0);
 
       data.pagesCount = totalPages;
-      data.itemsWidth = itemsWidth.reduce((a, b) => a + b, 0) / itemsWidth.length || 0;
 
       return data;
     },
@@ -160,12 +158,9 @@ const Scrollable = ({
 
       checkInterval = setInterval(() => {
         if (childrenRefs[0] && childrenRefs[0].current && containerRef.current) {
-          const { pagesCount, itemsWidth } = getDOMData(
-            childrenRefs,
-            containerRef.current
-          );
+          const { pagesCount } = getDOMData(childrenRefs, containerRef.current);
 
-          setScrollState(state => ({ ...state, pagesCount, itemsWidth }));
+          setScrollState(state => ({ ...state, pagesCount }));
 
           clearInterval(checkInterval);
         }
