@@ -1,5 +1,5 @@
-import { EnumMember, STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { sanitizeTime } from '../../service/utils';
 import Button from '../common/Button';
 import EditableText from '../common/EditableText';
 import CriteriaListController, {
@@ -41,18 +41,20 @@ const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
   };
 
   const handleTimeChange = (time: string, rangeType: string) => {
-    const validatorRegex = /^([01][0-9]|2[0-3]):([0-5][0-9])$/g;
+    const validatorRegex = /^([0-9]|0[0-9]|1?[0-9]|2[0-3]):[0-5]?[0-9]$/g;
 
     const validation = validatorRegex.test(time);
     if (!validation) return;
+
+    let sanitized = sanitizeTime(time);
 
     setProfileState(state => {
       const newRange = { ...state.enabledInRange };
 
       if (rangeType === 'from') {
-        newRange.from = time;
+        newRange.from = sanitized;
       } else {
-        newRange.to = time;
+        newRange.to = sanitized;
       }
 
       return { ...state, enabledInRange: newRange };
