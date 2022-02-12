@@ -20,12 +20,12 @@ export enum IScrollableType {
   Horizontal,
 }
 
-interface IScrollableChildren {
+interface ScrollableChildren {
   style?: CSSProperties;
   ref?: React.RefObject<Element>;
 }
 
-interface IScrollState {
+interface ScrollState {
   isScrolling: boolean;
   itemsOffset: {
     x: number;
@@ -37,7 +37,7 @@ interface IScrollState {
 
 const CHILDREN_CONTAINER_ID = uuid();
 
-export interface IScrollableProps {
+interface ScrollableProps {
   containerRef: React.RefObject<HTMLDivElement>;
   containerClasses?: string;
   slideTimeMs?: number;
@@ -53,8 +53,8 @@ const Scrollable = ({
   children,
   itemsWidth,
   itemsPerPage,
-}: IScrollableProps) => {
-  const [scrollState, setScrollState] = useState<IScrollState>({
+}: ScrollableProps) => {
+  const [scrollState, setScrollState] = useState<ScrollState>({
     isScrolling: false,
     itemsOffset: {
       x: 0,
@@ -80,7 +80,7 @@ const Scrollable = ({
 
     if (isScrolling) return;
 
-    let newOffset: IScrollState['itemsOffset'] = { ...itemsOffset };
+    let newOffset: ScrollState['itemsOffset'] = { ...itemsOffset };
     let newPage = currentPage;
 
     if (direction === Direction.Left) {
@@ -173,7 +173,7 @@ const Scrollable = ({
     const refsObject: React.RefObject<Element>[] = [];
 
     const mapped = React.Children.map(children, (child, index) => {
-      if (!React.isValidElement<IScrollableChildren>(child)) {
+      if (!React.isValidElement<ScrollableChildren>(child)) {
         return child;
       }
 

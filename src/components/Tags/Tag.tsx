@@ -1,8 +1,7 @@
 import EditableText from '../common/EditableText';
-import CrossIcon from '../common/icons/CrossIcon';
 import styles from './tags.module.css';
 
-export interface ITagProps {
+interface TagProps {
   title: string;
   isHovering: boolean;
   isEditing: boolean;
@@ -28,7 +27,7 @@ const Tag = ({
   onValueSubmit,
   classes = '',
   btnIcon,
-}: ITagProps) => {
+}: TagProps) => {
   return (
     <div
       className={`${styles.tag} ${classes}`}

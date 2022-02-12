@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { ITag } from './TagController';
+import { Tag } from './TagController';
 import TagGroup from './TagGroup';
 
-interface ITagGroupControllerProps {
-  startTags?: ITag[];
+interface TagGroupControllerProps {
+  startTags?: Tag[];
   onTagRemove?: (id: string) => void;
   containerClasses?: string;
   tagsClasses?: string;
@@ -14,7 +14,7 @@ const TagGroupController = ({
   onTagRemove,
   containerClasses,
   tagsClasses,
-}: ITagGroupControllerProps) => {
+}: TagGroupControllerProps) => {
   const [tags, setTags] = useState(startTags);
 
   useEffect(() => {

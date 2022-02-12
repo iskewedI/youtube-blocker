@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
 import Button from '../common/Button';
-import Input, { IInputProps } from '../common/Input';
-import Select, { ISelectProps } from '../common/Select';
+import Input, { InputProps } from '../common/Input';
+import Select, { SelectProps } from '../common/Select';
 
 import styles from './criteria_list.module.css';
 
-export interface ICriteriaListProps {
+interface CriteriaListProps {
   title: string;
   buttons: {
     classes: string;
@@ -13,8 +13,8 @@ export interface ICriteriaListProps {
     onClick?: () => void;
   }[];
   renderInput: boolean;
-  selectProps: ISelectProps;
-  inputProps: IInputProps;
+  selectProps: SelectProps;
+  inputProps: InputProps;
 }
 
 const CriteriaList = ({
@@ -23,7 +23,7 @@ const CriteriaList = ({
   renderInput,
   selectProps,
   inputProps,
-}: ICriteriaListProps) => {
+}: CriteriaListProps) => {
   return (
     <div className={styles.container}>
       <Button

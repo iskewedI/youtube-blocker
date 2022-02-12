@@ -6,11 +6,11 @@ import Scrollable from '../Scrollable/Scrollable';
 import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
 
-export interface INavbarProps {
+interface NavbarProps {
   profiles: string[];
 }
 
-const Navbar = ({ profiles }: INavbarProps) => {
+const Navbar = ({ profiles }: NavbarProps) => {
   const [active, setActive] = useState<number>(0);
 
   const handleChange = (index: number) => {

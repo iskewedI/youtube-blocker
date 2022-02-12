@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactElement } from 'react';
 import styles from './common.module.css';
 
-export interface IButtonProps {
+interface ButtonProps {
   title?: string;
   onClick?: () => void;
   classes?: string;
@@ -9,8 +9,8 @@ export interface IButtonProps {
   style?: CSSProperties;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
-  ({ style, classes = '', title = '', children, onClick }: IButtonProps, ref) => {
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ style, classes = '', title = '', children, onClick }: ButtonProps, ref) => {
     return (
       <button
         style={style}

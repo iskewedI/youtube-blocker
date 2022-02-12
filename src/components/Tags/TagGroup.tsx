@@ -1,8 +1,8 @@
-import TagController, { ITag } from './TagController';
+import TagController, { Tag } from './TagController';
 import styles from './tags.module.css';
 
-export interface ITagGroupProps {
-  tags: ITag[];
+interface TagGroupProps {
+  tags: Tag[];
   onTagRemove: (id: string) => void;
   onTagEdit: (id: string, newValue: string) => void;
   containerClasses?: string;
@@ -15,7 +15,7 @@ const TagGroup = ({
   onTagEdit,
   containerClasses,
   tagsClasses,
-}: ITagGroupProps) => {
+}: TagGroupProps) => {
   return (
     <div className={`${styles.container} ${containerClasses}`}>
       {tags.map(tag => (

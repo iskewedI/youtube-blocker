@@ -1,7 +1,7 @@
 import Button from '../common/Button';
 import styles from './day_picker.module.css';
 
-export interface DayProps {
+interface DayProps {
   title: string;
   classes?: string;
   onClick: () => void;

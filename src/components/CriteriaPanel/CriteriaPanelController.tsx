@@ -56,23 +56,23 @@ const criterias = [
   },
 ];
 
-interface ICriteriaPanelControllerProps {
+interface CriteriaPanelControllerProps {
   type: CriteraListType;
   onDone: () => void;
 }
 
-interface ICriteriaChange {
+interface CriteriaChange {
   added: string[];
   removed: string[];
 }
 
-interface IChanges {
-  [id: string]: ICriteriaChange;
+interface Changes {
+  [id: string]: CriteriaChange;
 }
 
-const CriteriaPanelController = ({ type, onDone }: ICriteriaPanelControllerProps) => {
+const CriteriaPanelController = ({ type, onDone }: CriteriaPanelControllerProps) => {
   const [active, setActive] = useState<string>(criterias[0].id);
-  const [changes, setChanges] = useState<IChanges>();
+  const [changes, setChanges] = useState<Changes>();
 
   const handleDone = () => {
     if (onDone && typeof onDone === 'function') {
@@ -87,7 +87,7 @@ const CriteriaPanelController = ({ type, onDone }: ICriteriaPanelControllerProps
     }
 
     setChanges(lastChanges => {
-      const newChanges: ICriteriaChange =
+      const newChanges: CriteriaChange =
         lastChanges && lastChanges[active]
           ? lastChanges[active]
           : { added: [], removed: [] };

@@ -2,15 +2,15 @@ import Day from './Day';
 import styles from './day_picker.module.css';
 import { uuid } from '../../service/utils';
 
-export interface IDay {
+export interface Day {
   title: string;
   active: boolean;
   id: string;
 }
 
-export interface DayPickerProps {
+interface DayPickerProps {
   onDayClick: (id: string) => void;
-  days: IDay[];
+  days: Day[];
   enabled: boolean;
 }
 

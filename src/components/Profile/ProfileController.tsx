@@ -4,11 +4,11 @@ import { CriteraListType } from '../CriteriaList/CriteriaListController';
 import CriteriaPanelController from '../CriteriaPanel/CriteriaPanelController';
 import Profile from './Profile';
 
-export interface IProfilerControllerProps {
+interface ProfilerControllerProps {
   id?: number;
 }
 
-interface IProfileState {
+interface ProfileState {
   isEditing: boolean;
   editingProfileId: string | null;
   editingProfileType: CriteraListType | null;
@@ -19,8 +19,8 @@ const criterias = [
   { id: uuid(), data: [], type: CriteraListType.Block },
 ];
 
-const ProfileController = ({ id }: IProfilerControllerProps) => {
-  const [profileState, setProfileState] = useState<IProfileState>({
+const ProfileController = ({ id }: ProfilerControllerProps) => {
+  const [profileState, setProfileState] = useState<ProfileState>({
     isEditing: false,
     editingProfileId: null,
     editingProfileType: null,

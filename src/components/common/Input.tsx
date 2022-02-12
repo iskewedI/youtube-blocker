@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from './common.module.css';
 
-export interface IInputProps {
+export interface InputProps {
   onChange?: (value: string) => void;
   placeholder?: string;
   onSubmit?: (text: string) => void;
@@ -18,7 +18,7 @@ const Input = ({
   autofocus = false,
   startValue = '',
   formStyle,
-}: IInputProps) => {
+}: InputProps) => {
   const [value, setValue] = useState<string>(startValue);
 
   const handleChange = (value: string) => {

@@ -3,19 +3,19 @@ import CrossIcon from '../common/icons/CrossIcon';
 import TickIcon from '../common/icons/TickIcon';
 import Tag from './Tag';
 
-interface ITagControllerProps {
+interface TagControllerProps {
   title: string;
   onRemove: () => void;
   onEdit: (newValue: string) => void;
   classes?: string;
 }
 
-export interface ITag {
+export interface Tag {
   id: string;
   title: string;
 }
 
-const TagController = ({ title, classes, onRemove, onEdit }: ITagControllerProps) => {
+const TagController = ({ title, classes, onRemove, onEdit }: TagControllerProps) => {
   const [isHover, setIsHover] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [tagValue, setTagValue] = useState(title);

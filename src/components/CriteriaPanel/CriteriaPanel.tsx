@@ -1,11 +1,10 @@
-import { createRef, useState } from 'react';
-import { uuid } from '../../service/utils';
+import { createRef } from 'react';
 import Button from '../common/Button';
 import Scrollable from '../Scrollable/Scrollable';
 import TagGroupController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
 
-interface ICriteriaPanelProps {
+interface CriteriaPanelProps {
   criterias: {
     name: string;
     tags: {
@@ -30,7 +29,7 @@ const CriteriaPanel = ({
   onDone,
   doneBtnClasses = '',
   tagsClasses = '',
-}: ICriteriaPanelProps) => {
+}: CriteriaPanelProps) => {
   const containerRef = createRef<HTMLDivElement>();
 
   const criteriaActive = criterias.find(criteria => criteria.id === active);

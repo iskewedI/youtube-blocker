@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { uuid } from '../../service/utils';
 import styles from './common.module.css';
 
-export interface ISelectOption {
+interface SelectOption {
   id: string;
   title: string;
 }
 
-export interface ISelectProps {
-  options: ISelectOption[];
+export interface SelectProps {
+  options: SelectOption[];
   onChange?: (selected: string) => void;
 }
 
-const Select = ({ options, onChange }: ISelectProps) => {
+const Select = ({ options, onChange }: SelectProps) => {
   const [currentValue, setCurrentValue] = useState<string>(options[0].id);
 
   const handleChange = (value: string) => {

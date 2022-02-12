@@ -18,11 +18,11 @@ const options = [
   },
 ];
 
-interface IListState {
+interface ListState {
   isAdding: boolean;
 }
 
-interface IInputState {
+interface InputState {
   selectedOptionId: string;
   inputValue: string;
 }
@@ -32,18 +32,18 @@ export enum CriteraListType {
   Block,
 }
 
-export interface ICriteriaListControllerProps {
+interface CriteriaListControllerProps {
   data: { option: string; value: string }[];
   type: CriteraListType;
   onEdit: () => void;
 }
 
-const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerProps) => {
-  const [listState, setListState] = useState<IListState>({
+const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerProps) => {
+  const [listState, setListState] = useState<ListState>({
     isAdding: false,
   });
 
-  const [inputFormState, setInputFormState] = useState<IInputState>({
+  const [inputFormState, setInputFormState] = useState<InputState>({
     selectedOptionId: options[0].id,
     inputValue: '',
   });

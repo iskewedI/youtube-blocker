@@ -8,7 +8,7 @@ import CriteriaListController, {
 import DayPickerController from '../DayPicker/DayPickerController';
 import styles from './profile.module.css';
 
-export interface ICriteriaList {
+interface CriteriaList {
   id: string;
   data: { option: string; value: string }[];
   type: CriteraListType;
@@ -22,12 +22,12 @@ interface ProfileState {
   };
 }
 
-interface IProfileProps {
-  criterias: ICriteriaList[];
+interface ProfileProps {
+  criterias: CriteriaList[];
   onCriteriaEdit: (id: string, type: CriteraListType) => void;
 }
 
-const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
+const Profile = ({ criterias, onCriteriaEdit }: ProfileProps) => {
   const [profileState, setProfileState] = useState<ProfileState>({
     alwaysEnabled: false,
     enabledInRange: {

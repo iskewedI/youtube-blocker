@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { uuid } from '../../service/utils';
-import DayPicker, { IDay } from './DayPicker';
+import DayPicker, { Day } from './DayPicker';
 
-interface IDayPickerControllerProps {
+interface DayPickerControllerProps {
   enabled?: boolean;
 }
 
-const DayPickerController = ({ enabled = true }: IDayPickerControllerProps) => {
-  const [days, setDays] = useState<IDay[]>([
+const DayPickerController = ({ enabled = true }: DayPickerControllerProps) => {
+  const [days, setDays] = useState<Day[]>([
     { id: uuid(), title: 'Mo', active: false },
     { id: uuid(), title: 'Tu', active: true },
     { id: uuid(), title: 'We', active: false },
