@@ -5,16 +5,22 @@ import TimerIcon from '../common/icons/TimerIcon';
 import Scrollable from '../Scrollable/Scrollable';
 import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
+import { Screens } from '../../App';
 
 export interface INavbarProps {
   profiles: string[];
+  onChangeScreen: (newScreen: Screens) => void;
+  currentScreen: Screens;
 }
 
-const Navbar = ({ profiles }: INavbarProps) => {
+const Navbar = ({ profiles, onChangeScreen, currentScreen }: INavbarProps) => {
   const [active, setActive] = useState<number>(0);
 
   const handleChange = (index: number) => {
     setActive(index);
+    if (currentScreen !== Screens.Profiles) {
+      onChangeScreen(Screens.Profiles);
+    }
   };
 
   const containerRef = createRef<HTMLDivElement>();
@@ -40,8 +46,16 @@ const Navbar = ({ profiles }: INavbarProps) => {
       </Scrollable>
 
       <div className={styles.buttonsContainer}>
-        <Button classes={styles.navbarBtn} children={<TimerIcon width={20} />} />
-        <Button classes={styles.navbarBtn} children={<SettingsIcon width={20} />} />
+        <Button
+          classes={styles.navbarBtn}
+          children={<TimerIcon width={20} />}
+          onClick={() => onChangeScreen(Screens.Timer)}
+        />
+        <Button
+          classes={styles.navbarBtn}
+          children={<SettingsIcon width={20} />}
+          onClick={() => onChangeScreen(Screens.Settings)}
+        />
       </div>
     </div>
   );
