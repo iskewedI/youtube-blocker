@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sanitizeTime } from '../../service/utils';
+// import { sanitizeTime } from '../../service/utils';
 import Button from '../common/Button';
 import EditableText from '../common/EditableText';
 import CriteriaListController, {
@@ -26,6 +26,10 @@ interface ProfileProps {
   criterias: CriteriaList[];
   onCriteriaEdit: (id: string, type: CriteraListType) => void;
 }
+
+const sanitizeTime = (time: string) => {
+  return time;
+};
 
 const Profile = ({ criterias, onCriteriaEdit }: ProfileProps) => {
   const [profileState, setProfileState] = useState<ProfileState>({

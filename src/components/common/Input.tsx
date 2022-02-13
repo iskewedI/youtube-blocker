@@ -11,6 +11,15 @@ export interface InputProps {
   formStyle?: React.CSSProperties;
 }
 
+/***
+ * Renders a Form with Input component, to handle the onChange and onSubmit event properly.
+ * @param {string} placeholder - Text for the input placeholder.
+ * @param {(text: string) => void} onSubmit - Callback function to be called in the onSubmit event.
+ * @param {(value: string) => void} onChange - Callback function to be called in the onChange event.
+ * @param {boolean} [autofocus=false] - Defines if the input should be autofocused when mounted in the UI.
+ * @param {string} startValue - Default value of the input.
+ * @param {CSSProperties} formStyle - Object with Javascript styles to be applied to the form.
+ */
 const Input = ({
   placeholder = '',
   onSubmit,

@@ -1,18 +1,18 @@
 import { createRef } from 'react';
 import Button from '../common/Button';
 import Scrollable from '../Scrollable/Scrollable';
+import { Tag } from '../Tags/TagController';
 import TagGroupController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
 
+interface Criteria {
+  name: string;
+  tags: Tag[];
+  id: string;
+}
+
 interface CriteriaPanelProps {
-  criterias: {
-    name: string;
-    tags: {
-      id: string;
-      title: string;
-    }[];
-    id: string;
-  }[];
+  criterias: Criteria[];
   active: string;
   onChangeCriteria: (id: string) => void;
   onTagRemove: (id: string) => void;
@@ -21,6 +21,16 @@ interface CriteriaPanelProps {
   tagsClasses?: string;
 }
 
+/***
+ * Renders a scrollable row of buttons, mapped from the criterias list, and a TagGroup to display the tags of the current active criteria.
+ * @param {Criteria[]} criterias - Criteria array to be rendered.
+ * @param {string} active - ID of the current active criteria.
+ * @param {(id: string) => void} onChangeCriteria - Callback function to be called on the change of the selected criteria. It receives the new selected criteria ID as first arg.
+ * @param {(id: string) => void} onTagRemove - Callback function to be called on the remove of any tag. It receives the removed tag ID as first arg.
+ * @param {() => void} onDone - Callback function to be called on the Done button click.
+ * @param {string} doneBtnClasses - Optional classes to the Done button.
+ * @param {string} tagsClasses - Optional classes to be applied to each tag.
+ */
 const CriteriaPanel = ({
   criterias,
   active,

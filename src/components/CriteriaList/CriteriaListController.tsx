@@ -38,6 +38,12 @@ interface CriteriaListControllerProps {
   onEdit: () => void;
 }
 
+/***
+ * Controller for the CriteriaList view. Handles the buttons form/input actions to add new criterias to the list, and calls the onEdit callback to render the new screen.
+ * @param {{option: string; value: string }[]} data - WILL CHANGE WHEN STORE IS IMPLEMENTED.
+ * @param {CriteraListType} type - Defines which type of Criteria List is, that changes some colors in the view.
+ * @param {() => void} onEdit - Callback function to be called when the Edit button is pressed.
+ */
 const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerProps) => {
   const [listState, setListState] = useState<ListState>({
     isAdding: false,

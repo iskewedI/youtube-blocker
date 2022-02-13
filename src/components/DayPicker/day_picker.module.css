@@ -1,3 +1,7 @@
+.container {
+  display: flex;
+}
+
 .day {
   font-size: 1.8rem;
   background-color: #696969;

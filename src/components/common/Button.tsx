@@ -9,6 +9,14 @@ interface ButtonProps {
   style?: CSSProperties;
 }
 
+/***
+ * Renders a common Button component with standarized classes.
+ * @param {CSSProperties} style - Object with Javascript styles.
+ * @param {string} classes - Aditional classes to be applied.
+ * @param {string} title - Title of the button.
+ * @param {ReactElement} children - Any React Element to be rendered (ex. Icons).
+ * @param {() => void} onClick - Callback function to be called in the onClick event.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ style, classes = '', title = '', children, onClick }: ButtonProps, ref) => {
     return (

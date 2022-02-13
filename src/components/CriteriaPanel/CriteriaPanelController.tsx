@@ -70,6 +70,11 @@ interface Changes {
   [id: string]: CriteriaChange;
 }
 
+/***
+ * Controller for the CriteriaPanel. Handles the styles that depends of the type, and the calls/operations to the store
+ * @param {CriteraListType} type - The type of the CriteriaPanel. This modifies some styles in the buttons and tags.
+ * @param {() => void} onDone - Callback function to be called when the edit is done.
+ */
 const CriteriaPanelController = ({ type, onDone }: CriteriaPanelControllerProps) => {
   const [active, setActive] = useState<string>(criterias[0].id);
   const [changes, setChanges] = useState<Changes>();
