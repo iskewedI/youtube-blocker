@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Tag } from './TagController';
 import TagGroup from './TagGroup';
 
 interface TagGroupControllerProps {
@@ -9,6 +8,13 @@ interface TagGroupControllerProps {
   tagsClasses?: string;
 }
 
+/***
+ * Controller for the TagGroup component. Handles all the function events logic, and store calls/operations.
+ * @param {Tag[]} startTags - Start tags to be rendered. Probably will be removed.
+ * @param {(id: string) => void} onTagRemove - Callback function to be called when a tag is removed. It receives the removed tag ID as first parameter.
+ * @param {string} containerClasses - Optional classes to be passed to the TagGroup container.
+ * @param {string} tagsClasses - Optional classes to be passed to each rendered tag.
+ */
 const TagGroupController = ({
   startTags = [],
   onTagRemove,
@@ -21,6 +27,9 @@ const TagGroupController = ({
     setTags(startTags);
   }, [startTags]);
 
+  /***
+   * Handles the tag removal operation with the store.
+   */
   const handleTagRemove = (id: string) => {
     const store = [...tags];
 
@@ -36,6 +45,9 @@ const TagGroupController = ({
     }
   };
 
+  /***
+   * Handles the tag edit operation with the store.
+   */
   const handleTagEdit = (id: string, newValue: string) => {
     const store = [...tags];
 

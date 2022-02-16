@@ -2,12 +2,6 @@ import styles from './day_picker.module.css';
 import { uuid } from '../../service/utils';
 import Button from '../common/Button';
 
-export interface Day {
-  title: string;
-  active: boolean;
-  id: string;
-}
-
 interface DayPickerProps {
   days: Day[];
   onDayClick: (id: string) => void;

@@ -1,15 +1,8 @@
 import { createRef } from 'react';
 import Button from '../common/Button';
 import Scrollable from '../Scrollable/Scrollable';
-import { Tag } from '../Tags/TagController';
 import TagGroupController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
-
-interface Criteria {
-  name: string;
-  tags: Tag[];
-  id: string;
-}
 
 interface CriteriaPanelProps {
   criterias: Criteria[];

@@ -37,6 +37,11 @@ const EditableText = ({
     setIsEditing(false);
   };
 
+  /***
+   * Used in the container.
+   * Handles the double click event.
+   * It'll only work if the component is enabled, and will call the onEditStart callback if is editing.
+   */
   const handleDoubleClick = () => {
     if (!enabled) return;
 
@@ -49,6 +54,10 @@ const EditableText = ({
     setIsEditing(editing => !editing);
   };
 
+  /***
+   * Hook used to ensure this component is updated if the props changes.
+   * It'll force render the component if something has changed.
+   */
   useEffect(() => {
     if (editing !== isEditing) {
       setIsEditing(editing);

@@ -1,11 +1,11 @@
 import styles from './app.module.css';
-import Navbar from './components/Navbar/Navbar';
+import NavbarController from './components/Navbar/NavbarController';
 import ProfileController from './components/Profile/ProfileController';
 
 function App() {
   return (
     <div className={styles.appContainer}>
-      <Navbar profiles={['Study', 'Work', 'Kids', 'Games']} />
+      <NavbarController />
       <ProfileController />
     </div>
   );

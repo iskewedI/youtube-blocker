@@ -1,15 +1,8 @@
-import { ReactElement } from 'react';
 import Button from '../common/Button';
 import Input, { InputProps } from '../common/Input';
 import Select, { SelectProps } from '../common/Select';
 
 import styles from './criteria_list.module.css';
-
-interface CriteriaButtons {
-  classes: string;
-  content: ReactElement;
-  onClick?: () => void;
-}
 
 interface CriteriaListProps {
   title: string;

@@ -38,6 +38,10 @@ const Input = ({
     }
   };
 
+  /***
+   * The evt.preventDefault() is used to prevent the reloading of the page on the submit.
+   * The submit event is used to handle the user input submit with the keyboard and different devices (compatibility).
+   */
   const handleSubmit = (evt: React.ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault();
 

@@ -1,4 +1,4 @@
-import TagController, { Tag } from './TagController';
+import TagController from './TagController';
 import styles from './tags.module.css';
 
 interface TagGroupProps {
@@ -9,6 +9,14 @@ interface TagGroupProps {
   tagsClasses?: string;
 }
 
+/***
+ * Renders a container with a Tag for each Tag item in the array parameter.
+ * @param {Tag[]} tags - Array of Tags to be rendered.
+ * @param {(id: string) => void} onTagRemove - Callback function to be called when the tag is removed.
+ * @param {(id: string, newValue: string) => void} - Callback function to be called when the tag is edited. The ID and the new value is passed as parameters.
+ * @param {string} containerClasses - Optional classes to be passed to the container of the TagGroup.
+ * @param {string} tagsClasses - Optional classes to be passed to each rendered tag component.
+ */
 const TagGroup = ({
   tags,
   onTagRemove,

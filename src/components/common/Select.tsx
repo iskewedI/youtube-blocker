@@ -2,11 +2,6 @@ import { useState } from 'react';
 import { uuid } from '../../service/utils';
 import styles from './common.module.css';
 
-interface SelectOption {
-  id: string;
-  title: string;
-}
-
 export interface SelectProps {
   options: SelectOption[];
   onChange?: (selected: string) => void;
@@ -26,6 +21,7 @@ const Select = ({ options, onChange }: SelectProps) => {
       onChange(value);
     }
   };
+
   return (
     <select
       value={currentValue}

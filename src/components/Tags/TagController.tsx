@@ -10,12 +10,14 @@ interface TagControllerProps {
   classes?: string;
 }
 
-export interface Tag {
-  id: string;
-  title: string;
-}
-
-const TagController = ({ title, classes, onRemove, onEdit }: TagControllerProps) => {
+/***
+ * Controller for the Tag. Handles the states and function events.
+ * @param {string} title - Title to be initially rendered in the tag.
+ * @param {() => void} onRemove - Callback function to be called when the tag is removed.
+ * @param {(newValue: string) => void} - Callback function to be called when the tag is edited. The new value is passed as first parameter.
+ * @param {string} classes - Optional classes to be passed to the tag container.
+ */
+const TagController = ({ title, onRemove, onEdit, classes }: TagControllerProps) => {
   const [isHover, setIsHover] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [tagValue, setTagValue] = useState(title);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { uuid } from '../../service/utils';
-import { CriteraListType } from '../CriteriaList/CriteriaListController';
+import { CriteriaListType } from '../../types/enums';
 import CriteriaPanel from './CriteriaPanel';
 import styles from './criteria_panel.module.css';
 
@@ -57,19 +57,9 @@ const criterias = [
 ];
 
 interface CriteriaPanelControllerProps {
-  type: CriteraListType;
+  type: CriteriaListType;
   onDone: () => void;
 }
-
-interface CriteriaChange {
-  added: string[];
-  removed: string[];
-}
-
-interface Changes {
-  [id: string]: CriteriaChange;
-}
-
 /***
  * Controller for the CriteriaPanel. Handles the styles that depends of the type, and the calls/operations to the store
  * @param {CriteraListType} type - The type of the CriteriaPanel. This modifies some styles in the buttons and tags.
@@ -85,6 +75,11 @@ const CriteriaPanelController = ({ type, onDone }: CriteriaPanelControllerProps)
     }
   };
 
+  /***
+   * Used when a user clicks on the Cross Icon in a criteria, rendered as a Tag inside the CriteriaPanel.
+   * Handles the remove of a criteria in the store.
+   * @param {string} id - Id of the requested criteria to remove.
+   */
   const handleCriteriaRemove = (id: string) => {
     const criteria = criterias.find(crit => crit.id === active);
     if (criteria) {
@@ -104,7 +99,7 @@ const CriteriaPanelController = ({ type, onDone }: CriteriaPanelControllerProps)
   };
 
   const { doneBtnClasses, tagsClasses } =
-    type === CriteraListType.Allow
+    type === CriteriaListType.Allow
       ? { doneBtnClasses: styles.allowDoneBtn, tagsClasses: styles.allowTags }
       : { doneBtnClasses: styles.blockDoneBtn, tagsClasses: styles.blockTags };
 

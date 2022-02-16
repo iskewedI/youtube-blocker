@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { uuid } from '../../service/utils';
-import DayPicker, { Day } from './DayPicker';
+import DayPicker from './DayPicker';
 
 interface DayPickerControllerProps {
   enabled?: boolean;
@@ -22,6 +22,10 @@ const DayPickerController = ({ enabled = true }: DayPickerControllerProps) => {
     { id: uuid(), title: 'Su', active: true },
   ]);
 
+  /***
+   * Sets the new active day by its id.
+   * @param {string} id - Id of the clicked day.
+   */
   const handleDayClick = (id: string) => {
     if (!enabled) return;
 

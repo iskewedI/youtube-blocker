@@ -10,7 +10,7 @@ interface ButtonProps {
 }
 
 /***
- * Renders a common Button component with standarized classes.
+ * Renders a common Button component with standarized classes. It's a forwardRef value for later user in the Scrollable component (we need to get this ref).
  * @param {CSSProperties} style - Object with Javascript styles.
  * @param {string} classes - Aditional classes to be applied.
  * @param {string} title - Title of the button.

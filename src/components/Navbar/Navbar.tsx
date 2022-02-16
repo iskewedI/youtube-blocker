@@ -1,4 +1,4 @@
-import { useState, createRef } from 'react';
+import { createRef } from 'react';
 import Button from '../common/Button';
 import SettingsIcon from '../common/icons/SettingsIcon';
 import TimerIcon from '../common/icons/TimerIcon';
@@ -7,16 +7,18 @@ import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
 
 interface NavbarProps {
-  profiles: string[];
+  profiles: Profile[];
+  activeProfile: string;
+  onProfileClick: (id: string) => void;
 }
 
-const Navbar = ({ profiles }: NavbarProps) => {
-  const [active, setActive] = useState<number>(0);
-
-  const handleChange = (index: number) => {
-    setActive(index);
-  };
-
+/***
+ * Renders a Scrollable row with buttons as profiles, and a container for screen-links buttons
+ * @param {Profile[]} profiles - Array of profiles to be rendered
+ * @param {string} activeProfile - ID of the current active profile
+ * @param {(id: string) => void} onProfileClick - Callback to be called in the profile button onClick event
+ */
+const Navbar = ({ profiles, activeProfile, onProfileClick }: NavbarProps) => {
   const containerRef = createRef<HTMLDivElement>();
 
   return (
@@ -27,13 +29,13 @@ const Navbar = ({ profiles }: NavbarProps) => {
         itemsWidth={74}
         itemsPerPage={4}
       >
-        {profiles.map((title, index) => (
+        {profiles.map(({ id, title }) => (
           <Button
             key={uuid()}
             classes={`${styles.profile} ${
-              (index === active && styles.profileActive) || ''
+              (id === activeProfile && styles.profileActive) || ''
             }`}
-            onClick={() => handleChange(index)}
+            onClick={() => onProfileClick(id)}
             children={<div className={styles.profileTitle}>{title}</div>}
           />
         ))}

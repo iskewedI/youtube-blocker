@@ -1,72 +1,39 @@
-import { useState } from 'react';
-// import { sanitizeTime } from '../../service/utils';
 import Button from '../common/Button';
 import EditableText from '../common/EditableText';
-import CriteriaListController, {
-  CriteraListType,
-} from '../CriteriaList/CriteriaListController';
+import CriteriaListController from '../CriteriaList/CriteriaListController';
 import DayPickerController from '../DayPicker/DayPickerController';
+import { CriteriaListType, TimeRange } from '../../types/enums';
 import styles from './profile.module.css';
-
-interface CriteriaList {
-  id: string;
-  data: { option: string; value: string }[];
-  type: CriteraListType;
-}
-
-interface ProfileState {
-  alwaysEnabled: boolean;
-  enabledInRange: {
-    from: string;
-    to: string;
-  };
-}
 
 interface ProfileProps {
   criterias: CriteriaList[];
-  onCriteriaEdit: (id: string, type: CriteraListType) => void;
+  alwaysEnabled: boolean;
+  enabledFrom: string;
+  enabledTo: string;
+  onCriteriaEdit: (id: string, type: CriteriaListType) => void;
+  onAlwaysEnabledClick: () => void;
+  onTimeChange: (time: string, rangeType: TimeRange) => void;
 }
 
-const sanitizeTime = (time: string) => {
-  return time;
-};
-
-const Profile = ({ criterias, onCriteriaEdit }: ProfileProps) => {
-  const [profileState, setProfileState] = useState<ProfileState>({
-    alwaysEnabled: false,
-    enabledInRange: {
-      from: '00:30',
-      to: '09:30',
-    },
-  });
-
-  const handleAlwaysEnabledClick = () => {
-    setProfileState(state => ({ ...state, alwaysEnabled: !state.alwaysEnabled }));
-  };
-
-  const handleTimeChange = (time: string, rangeType: string) => {
-    const validatorRegex = /^([0-9]|0[0-9]|1?[0-9]|2[0-3]):[0-5]?[0-9]$/g;
-
-    const validation = validatorRegex.test(time);
-    if (!validation) return;
-
-    let sanitized = sanitizeTime(time);
-
-    setProfileState(state => {
-      const newRange = { ...state.enabledInRange };
-
-      if (rangeType === 'from') {
-        newRange.from = sanitized;
-      } else {
-        newRange.to = sanitized;
-      }
-
-      return { ...state, enabledInRange: newRange };
-    });
-  };
-
-  const { alwaysEnabled, enabledInRange } = profileState;
-
+/***
+ * Renders a CriteriaList for each criteria received, a DateTime component to set the From-To range times, a button to switch on/off the Always Enabled option and a Day Picker.
+ * @param {CriteriaList[]} criterias - List of criterias to render. Each one render a row with a button to edit it, its title and a button to add a new criteria.
+ * @param {boolean} alwaysEnabled - Switch on/off option that determines if the profile should be always enabled or could be configured to function in specific day and times.
+ * @param {string} enabledFrom - Time in HH:MM format to set the starting time to enable the profile.
+ * @param {string} enabledTo - Time in HH:MM format to set the ending time to disable the profile.
+ * @param {(id: string, type: CriteriaListType) => void} onCriteriaEdit - Callback function to be called when the onEdit of CriteriaList component is triggered.
+ * @param {() => void} onAlwaysEnabledClick - Callback function to be called when the Always Enabled Button is clicked.
+ * @param {(time: string, rangeType: TimeRange) => void} onTimeChange - Callback function to be called when any time range is edited.
+ */
+const Profile = ({
+  criterias,
+  alwaysEnabled,
+  enabledFrom,
+  enabledTo,
+  onCriteriaEdit,
+  onAlwaysEnabledClick,
+  onTimeChange,
+}: ProfileProps) => {
   return (
     <div className={styles.container}>
       {criterias.map(criteria => (
@@ -82,23 +49,23 @@ const Profile = ({ criterias, onCriteriaEdit }: ProfileProps) => {
             alwaysEnabled ? styles.btnDisabled : styles.btnEnabled
           }`}
           onClick={() => {
-            alwaysEnabled && handleAlwaysEnabledClick();
+            alwaysEnabled && onAlwaysEnabledClick();
           }}
         >
           <EditableText
-            text={enabledInRange.from}
+            text={enabledFrom}
             enabled={!alwaysEnabled}
-            onSubmit={(time: string) => handleTimeChange(time, 'from')}
+            onSubmit={(time: string) => onTimeChange(time, TimeRange.From)}
           />
           -
           <EditableText
-            text={enabledInRange.to}
+            text={enabledTo}
             enabled={!alwaysEnabled}
-            onSubmit={(time: string) => handleTimeChange(time, 'to')}
+            onSubmit={(time: string) => onTimeChange(time, TimeRange.To)}
           />
         </div>
         <Button
-          onClick={handleAlwaysEnabledClick}
+          onClick={onAlwaysEnabledClick}
           classes={`${styles.timerBtn} ${
             alwaysEnabled ? styles.btnEnabled : styles.btnDisabled
           } `}
@@ -107,7 +74,7 @@ const Profile = ({ criterias, onCriteriaEdit }: ProfileProps) => {
         <div
           className={styles.daysContainer}
           onClick={() => {
-            alwaysEnabled && handleAlwaysEnabledClick();
+            alwaysEnabled && onAlwaysEnabledClick();
           }}
         >
           <DayPickerController enabled={!alwaysEnabled} />
