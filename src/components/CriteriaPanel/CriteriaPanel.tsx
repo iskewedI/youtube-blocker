@@ -2,7 +2,7 @@ import { createRef, useState } from 'react';
 import { uuid } from '../../service/utils';
 import Button from '../common/Button';
 import Scrollable from '../Scrollable/Scrollable';
-import TagCollectionController from '../Tags/TagGroupController';
+import TagGroupController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
 
 interface ICriteriaPanelProps {
@@ -55,7 +55,7 @@ const CriteriaPanel = ({
         ))}
       </Scrollable>
       <div className={styles.innerContainer}>
-        <TagCollectionController
+        <TagGroupController
           startTags={criteriaActive?.tags}
           onTagRemove={onTagRemove}
           containerClasses={styles.tagCollectionContainer}

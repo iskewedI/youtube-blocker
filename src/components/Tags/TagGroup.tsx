@@ -4,6 +4,7 @@ import styles from './tags.module.css';
 export interface ITagGroupProps {
   tags: ITag[];
   onTagRemove: (id: string) => void;
+  onTagEdit: (id: string, newValue: string) => void;
   containerClasses?: string;
   tagsClasses?: string;
 }
@@ -11,6 +12,7 @@ export interface ITagGroupProps {
 const TagGroup = ({
   tags,
   onTagRemove,
+  onTagEdit,
   containerClasses,
   tagsClasses,
 }: ITagGroupProps) => {
@@ -20,7 +22,8 @@ const TagGroup = ({
         <TagController
           key={tag.id}
           title={tag.title}
-          onClick={() => onTagRemove(tag.id)}
+          onRemove={() => onTagRemove(tag.id)}
+          onEdit={(newValue: string) => onTagEdit(tag.id, newValue)}
           classes={tagsClasses}
         />
       ))}
