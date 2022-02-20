@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sanitizeTime } from '../../service/utils';
+import { formatTime } from '../../service/utils';
 import Button from '../common/Button';
 import EditableText from '../common/EditableText';
 import CriteriaListController, {
@@ -46,15 +46,15 @@ const Profile = ({ criterias, onCriteriaEdit }: IProfileProps) => {
     const validation = validatorRegex.test(time);
     if (!validation) return;
 
-    let sanitized = sanitizeTime(time);
+    let formatted = formatTime(time);
 
     setProfileState(state => {
       const newRange = { ...state.enabledInRange };
 
       if (rangeType === 'from') {
-        newRange.from = sanitized;
+        newRange.from = formatted;
       } else {
-        newRange.to = sanitized;
+        newRange.to = formatted;
       }
 
       return { ...state, enabledInRange: newRange };
