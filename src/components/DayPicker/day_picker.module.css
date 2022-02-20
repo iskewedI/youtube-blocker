@@ -12,6 +12,14 @@
   justify-content: center;
 }
 
-.day.day--active {
+.day.dayActive {
   background-color: #1f964f;
+}
+
+.disabledDays .day {
+  background-color: #696969;
+}
+
+.disabledDays .dayActive {
+  background-color: #949494;
 }

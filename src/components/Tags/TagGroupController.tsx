@@ -36,10 +36,22 @@ const TagGroupController = ({
     }
   };
 
+  const handleTagEdit = (id: string, newValue: string) => {
+    const store = [...tags];
+
+    const index = store.findIndex(t => t.id === id);
+    if (index < 0) return console.error('Index not found at handleTagRemove');
+
+    store[index].title = newValue;
+
+    setTags(store);
+  };
+
   return (
     <TagGroup
       tags={tags}
       onTagRemove={handleTagRemove}
+      onTagEdit={handleTagEdit}
       containerClasses={containerClasses}
       tagsClasses={tagsClasses}
     />

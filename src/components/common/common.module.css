@@ -26,6 +26,7 @@
   color: white;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .formInput:focus {
@@ -48,4 +49,10 @@
 
 .select:focus {
   outline: none;
+}
+
+/* Editable Text */
+.editableForm {
+  width: inherit;
+  max-width: inherit;
 }

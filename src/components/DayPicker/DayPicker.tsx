@@ -11,17 +11,17 @@ export interface IDay {
 export interface DayPickerProps {
   onDayClick: (id: string) => void;
   days: IDay[];
-  containerClasses?: string;
+  enabled: boolean;
 }
 
-const DayPicker = ({ onDayClick, days, containerClasses = '' }: DayPickerProps) => {
+const DayPicker = ({ onDayClick, days, enabled }: DayPickerProps) => {
   return (
-    <div style={{ display: 'flex' }} className={containerClasses}>
+    <div style={{ display: 'flex' }} className={!enabled ? styles.disabledDays : ''}>
       {days.map(day => (
         <Day
           key={uuid()}
           title={day.title}
-          classes={day.active ? styles['day--active'] : ''}
+          classes={day.active ? styles.dayActive : ''}
           onClick={() => onDayClick(day.id)}
         />
       ))}

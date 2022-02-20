@@ -1,22 +1,33 @@
+import EditableText from '../common/EditableText';
 import CrossIcon from '../common/icons/CrossIcon';
 import styles from './tags.module.css';
 
 export interface ITagProps {
   title: string;
   isHovering: boolean;
-  onClick: () => void;
+  isEditing: boolean;
+  onHoverBtnClick: () => void;
   onHover: (isHover: boolean) => void;
   onMoveOver: () => void;
+  onEditStart: () => void;
+  onValueChange: (newValue: string) => void;
+  onValueSubmit: () => void;
+  btnIcon: JSX.Element;
   classes?: string;
 }
 
 const Tag = ({
   title,
   isHovering,
-  onClick,
+  isEditing,
+  onHoverBtnClick,
   onHover,
   onMoveOver,
+  onEditStart,
+  onValueChange,
+  onValueSubmit,
   classes = '',
+  btnIcon,
 }: ITagProps) => {
   return (
     <div
@@ -25,10 +36,17 @@ const Tag = ({
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
     >
-      <div className={styles.tagTitle}>{title}</div>
+      <EditableText
+        editing={isEditing}
+        containerStyles={styles.tagTitle}
+        text={title}
+        onEditStart={onEditStart}
+        onChange={onValueChange}
+        onSubmit={onValueSubmit}
+      />
       {isHovering && (
-        <button className={`${styles.deleteIcon}`} onClick={onClick}>
-          <CrossIcon width={8} height={8} />
+        <button className={`${styles.deleteIcon}`} onClick={onHoverBtnClick}>
+          {btnIcon}
         </button>
       )}
     </div>
