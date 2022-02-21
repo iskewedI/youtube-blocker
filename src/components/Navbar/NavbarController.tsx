@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from './Navbar';
 import { uuid } from '../../service/utils';
+import { Screens } from '../../App';
 
 const profiles: Profile[] = [
   { title: 'Study', id: uuid() },
@@ -9,10 +10,14 @@ const profiles: Profile[] = [
   { title: 'Games', id: uuid() },
 ];
 
+interface NavbarControllerProps {
+  onChangeScreen: (newScreen: Screens) => void;
+  currentScreen: Screens;
+}
 /***
  * Controller for the Navbar view. Handles the state functions and click events, and all the store calls/operations.
  */
-const NavbarController = () => {
+const NavbarController = ({ onChangeScreen, currentScreen }: NavbarControllerProps) => {
   const [active, setActive] = useState<string>(profiles[0]?.id || '');
 
   /***
@@ -21,12 +26,16 @@ const NavbarController = () => {
    */
   const handleProfileClick = (id: string) => {
     setActive(id);
+    if (currentScreen !== Screens.Profiles) {
+      onChangeScreen(Screens.Profiles);
+    }
   };
 
   return (
     <Navbar
       profiles={profiles}
       onProfileClick={handleProfileClick}
+      onChangeScreen={onChangeScreen}
       activeProfile={active}
     />
   );

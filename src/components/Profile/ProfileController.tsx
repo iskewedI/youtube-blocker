@@ -1,17 +1,13 @@
 import { useState } from 'react';
 import CriteriaPanelController from '../CriteriaPanel/CriteriaPanelController';
 import Profile from './Profile';
-import { uuid } from '../../service/utils';
+import { formatTime, uuid } from '../../service/utils';
 import { CriteriaListType, TimeRange } from '../../types/enums';
 
 const criterias = [
   { id: uuid(), data: [], type: CriteriaListType.Allow },
   { id: uuid(), data: [], type: CriteriaListType.Block },
 ];
-
-const sanitizeTime = (time: string) => {
-  return time;
-};
 
 interface ProfilerControllerProps {
   id?: number;
@@ -69,7 +65,7 @@ const ProfileController = ({ id }: ProfilerControllerProps) => {
     const validation = validatorRegex.test(time);
     if (!validation) return;
 
-    let sanitized = sanitizeTime(time);
+    let sanitized = formatTime(time);
 
     setProfileState(state => {
       const newRange = { ...state.enabledInRange };

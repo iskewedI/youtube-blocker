@@ -1,0 +1,37 @@
+.container {
+  background-color: #373737;
+  padding: 0.4rem;
+}
+
+.profileActionsContainer {
+  padding: 3.5rem 3.7rem 3.5rem 3.5rem;
+}
+
+.profileAction {
+  display: inline-flex;
+  gap: 2.5rem;
+}
+
+.profileActionBtn {
+  padding: 0.9rem 1.5rem;
+  font-size: 1.8rem;
+  align-self: center;
+  box-shadow: 0px 2px 3px 1px #272727;
+}
+
+.profileSeparator {
+  border-top: 1px solid #b4b4b4;
+  margin-top: 2.8rem;
+  margin-bottom: 3.2rem;
+}
+
+.actionBtnContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.actionBtn {
+  padding: 0.5rem;
+  flex-grow: 1;
+}
