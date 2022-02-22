@@ -1,11 +1,11 @@
-import { createRef, useState } from 'react';
+import { createRef } from 'react';
 import Button from '../common/Button';
 import SettingsIcon from '../common/icons/SettingsIcon';
 import TimerIcon from '../common/icons/TimerIcon';
 import Scrollable from '../Scrollable/Scrollable';
 import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
-import { Screens } from '../../App';
+import { Screens } from '../../types/enums';
 
 interface NavbarProps {
   profiles: Profile[];
@@ -18,6 +18,7 @@ interface NavbarProps {
  * @param {Profile[]} profiles - Array of profiles to be rendered
  * @param {string} activeProfile - ID of the current active profile
  * @param {(id: string) => void} onProfileClick - Callback to be called in the profile button onClick event
+ * @param {(newScreen: Screens) => void} onChangeScreen - Callback to be called to fires the change screen event.
  */
 const Navbar = ({
   profiles,

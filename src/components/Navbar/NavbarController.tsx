@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navbar from './Navbar';
 import { uuid } from '../../service/utils';
-import { Screens } from '../../App';
+import { Screens } from '../../types/enums';
 
 const profiles: Profile[] = [
   { title: 'Study', id: uuid() },
@@ -14,6 +14,7 @@ interface NavbarControllerProps {
   onChangeScreen: (newScreen: Screens) => void;
   currentScreen: Screens;
 }
+
 /***
  * Controller for the Navbar view. Handles the state functions and click events, and all the store calls/operations.
  */

@@ -32,3 +32,7 @@ interface ScrollState {
   currentPage: number;
   pagesCount: number;
 }
+
+interface AppState {
+  currentScreen: Screens;
+}
