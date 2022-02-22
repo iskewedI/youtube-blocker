@@ -1,6 +1,6 @@
 import NavbarController from '../Navbar/NavbarController';
-import ProfileController from '../Profile/ProfileController';
-import SettingsController from '../Settings/SettingsController';
+import ProfileController from '../Screens/Profile/ProfileController';
+import SettingsController from '../Screens/Settings/SettingsController';
 import { Screens } from '../../types/enums';
 import styles from './app.module.css';
 

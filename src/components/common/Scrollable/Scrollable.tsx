@@ -1,7 +1,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { uuid } from '../../service/utils';
-import Button from '../common/Button';
-import ArrowIcon, { Direction } from '../common/icons/ArrowIcon';
+import { uuid } from '../../../service/utils';
+import Button from '../Button';
+import ArrowIcon, { Direction } from '../icons/ArrowIcon';
 import styles from './scrollable.module.css';
 
 const CHILDREN_CONTAINER_ID = uuid();

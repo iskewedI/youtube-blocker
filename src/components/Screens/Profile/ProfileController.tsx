@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import CriteriaPanelController from '../CriteriaPanel/CriteriaPanelController';
+import CriteriaPanelController from '../../CriteriaPanel/CriteriaPanelController';
 import Profile from './Profile';
-import { formatTime, uuid } from '../../service/utils';
-import { CriteriaListType, TimeRange } from '../../types/enums';
+import { formatTime, uuid } from '../../../service/utils';
+import { CriteriaListType, TimeRange } from '../../../types/enums';
 
 const criterias = [
   { id: uuid(), data: [], type: CriteriaListType.Allow },

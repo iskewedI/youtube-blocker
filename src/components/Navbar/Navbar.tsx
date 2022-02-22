@@ -2,7 +2,7 @@ import { createRef } from 'react';
 import Button from '../common/Button';
 import SettingsIcon from '../common/icons/SettingsIcon';
 import TimerIcon from '../common/icons/TimerIcon';
-import Scrollable from '../Scrollable/Scrollable';
+import Scrollable from '../common/Scrollable/Scrollable';
 import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
 import { Screens } from '../../types/enums';

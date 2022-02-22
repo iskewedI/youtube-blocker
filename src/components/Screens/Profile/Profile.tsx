@@ -1,8 +1,8 @@
-import Button from '../common/Button';
-import EditableText from '../common/EditableText';
-import CriteriaListController from '../CriteriaList/CriteriaListController';
-import DayPickerController from '../DayPicker/DayPickerController';
-import { CriteriaListType, TimeRange } from '../../types/enums';
+import Button from '../../common/Button';
+import EditableText from '../../common/EditableText';
+import CriteriaListController from '../../CriteriaList/CriteriaListController';
+import DayPickerController from '../../DayPicker/DayPickerController';
+import { CriteriaListType, TimeRange } from '../../../types/enums';
 import styles from './profile.module.css';
 
 interface ProfileProps {

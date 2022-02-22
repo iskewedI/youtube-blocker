@@ -1,6 +1,6 @@
 import { createRef } from 'react';
 import Button from '../common/Button';
-import Scrollable from '../Scrollable/Scrollable';
+import Scrollable from '../common/Scrollable/Scrollable';
 import TagGroupController from '../Tags/TagGroupController';
 import styles from './criteria_panel.module.css';
 
