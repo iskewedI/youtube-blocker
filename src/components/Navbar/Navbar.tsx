@@ -1,28 +1,31 @@
-import { useState, createRef } from 'react';
+import { createRef } from 'react';
 import Button from '../common/Button';
 import SettingsIcon from '../common/icons/SettingsIcon';
 import TimerIcon from '../common/icons/TimerIcon';
-import Scrollable from '../Scrollable/Scrollable';
+import Scrollable from '../common/Scrollable/Scrollable';
 import styles from './navbar.module.css';
 import { uuid } from '../../service/utils';
-import { Screens } from '../../App';
+import { Screens } from '../../types/enums';
 
-export interface INavbarProps {
-  profiles: string[];
+interface NavbarProps {
+  profiles: Profile[];
+  activeProfile: string;
   onChangeScreen: (newScreen: Screens) => void;
-  currentScreen: Screens;
+  onProfileClick: (id: string) => void;
 }
-
-const Navbar = ({ profiles, onChangeScreen, currentScreen }: INavbarProps) => {
-  const [active, setActive] = useState<number>(0);
-
-  const handleChange = (index: number) => {
-    setActive(index);
-    if (currentScreen !== Screens.Profiles) {
-      onChangeScreen(Screens.Profiles);
-    }
-  };
-
+/***
+ * Renders a Scrollable row with buttons as profiles, and a container for screen-links buttons
+ * @param {Profile[]} profiles - Array of profiles to be rendered
+ * @param {string} activeProfile - ID of the current active profile
+ * @param {(id: string) => void} onProfileClick - Callback to be called in the profile button onClick event
+ * @param {(newScreen: Screens) => void} onChangeScreen - Callback to be called to fires the change screen event.
+ */
+const Navbar = ({
+  profiles,
+  activeProfile,
+  onProfileClick,
+  onChangeScreen,
+}: NavbarProps) => {
   const containerRef = createRef<HTMLDivElement>();
 
   return (
@@ -33,13 +36,13 @@ const Navbar = ({ profiles, onChangeScreen, currentScreen }: INavbarProps) => {
         itemsWidth={74}
         itemsPerPage={4}
       >
-        {profiles.map((title, index) => (
+        {profiles.map(({ id, title }) => (
           <Button
             key={uuid()}
             classes={`${styles.profile} ${
-              (index === active && styles.profileActive) || ''
+              (id === activeProfile && styles.profileActive) || ''
             }`}
-            onClick={() => handleChange(index)}
+            onClick={() => onProfileClick(id)}
             children={<div className={styles.profileTitle}>{title}</div>}
           />
         ))}

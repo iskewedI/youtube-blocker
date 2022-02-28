@@ -1,6 +1,6 @@
-import Button from '../common/Button';
-import DownloadIcon from '../common/icons/DownloadIcon';
-import UploadIcon from '../common/icons/UploadIcon';
+import Button from '../../common/Button';
+import DownloadIcon from '../../common/icons/DownloadIcon';
+import UploadIcon from '../../common/icons/UploadIcon';
 import styles from './settings.module.css';
 
 interface SettingsProps {

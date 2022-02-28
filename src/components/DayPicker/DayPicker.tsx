@@ -1,27 +1,28 @@
-import Day from './Day';
 import styles from './day_picker.module.css';
 import { uuid } from '../../service/utils';
+import Button from '../common/Button';
 
-export interface IDay {
-  title: string;
-  active: boolean;
-  id: string;
-}
-
-export interface DayPickerProps {
+interface DayPickerProps {
+  days: Day[];
   onDayClick: (id: string) => void;
-  days: IDay[];
   enabled: boolean;
 }
 
-const DayPicker = ({ onDayClick, days, enabled }: DayPickerProps) => {
+/***
+ * Renders a container with buttons as Days
+ * @param {Day[]} days - An array of Days objects, with ID, Title and Active boolean.
+ * @param {(id: string) => void} onDayClick - Callback function to be called when a day is pressed. It receives the Day ID as the first arg.
+ * @param {boolean} enabled - Boolean that defines if the entire component should be enabled or disabled to the end user. If disabled, the component is in grey scale and is
+ * not usable
+ */
+const DayPicker = ({ days, onDayClick, enabled }: DayPickerProps) => {
   return (
-    <div style={{ display: 'flex' }} className={!enabled ? styles.disabledDays : ''}>
+    <div className={`${styles.container} ${!enabled ? styles.disabledDays : ''}`}>
       {days.map(day => (
-        <Day
+        <Button
           key={uuid()}
           title={day.title}
-          classes={day.active ? styles.dayActive : ''}
+          classes={`${styles.day} ${day.active ? styles.dayActive : ''}`}
           onClick={() => onDayClick(day.id)}
         />
       ))}

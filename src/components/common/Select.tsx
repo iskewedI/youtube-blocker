@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { uuid } from '../../service/utils';
 import styles from './common.module.css';
 
-export interface ISelectOption {
-  id: string;
-  title: string;
-}
-
-export interface ISelectProps {
-  options: ISelectOption[];
+export interface SelectProps {
+  options: SelectOption[];
   onChange?: (selected: string) => void;
 }
 
-const Select = ({ options, onChange }: ISelectProps) => {
+/***
+ * Renders a Select component with its options, to handle the onChange event properly.
+ * @param {SelectOption[]} options - Array of SelectOption object.
+ * @param {(selected: string) => void} onChange - Callback function to be called in the onChange event. It passes the selected option ID as a parameter.
+ */
+const Select = ({ options, onChange }: SelectProps) => {
   const [currentValue, setCurrentValue] = useState<string>(options[0].id);
 
   const handleChange = (value: string) => {
@@ -21,6 +21,7 @@ const Select = ({ options, onChange }: ISelectProps) => {
       onChange(value);
     }
   };
+
   return (
     <select
       value={currentValue}

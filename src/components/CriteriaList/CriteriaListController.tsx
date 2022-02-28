@@ -6,6 +6,7 @@ import TickIcon from '../common/icons/TickIcon';
 import CriteriaList from './CriteriaList';
 import styles from './criteria_list.module.css';
 import { uuid } from '../../service/utils';
+import { CriteriaListType } from '../../types/enums';
 
 const options = [
   {
@@ -18,32 +19,24 @@ const options = [
   },
 ];
 
-interface IListState {
-  isAdding: boolean;
-}
-
-interface IInputState {
-  selectedOptionId: string;
-  inputValue: string;
-}
-
-export enum CriteraListType {
-  Allow = 1,
-  Block,
-}
-
-export interface ICriteriaListControllerProps {
+interface CriteriaListControllerProps {
   data: { option: string; value: string }[];
-  type: CriteraListType;
+  type: CriteriaListType;
   onEdit: () => void;
 }
 
-const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerProps) => {
-  const [listState, setListState] = useState<IListState>({
+/***
+ * Controller for the CriteriaList view. Handles the buttons form/input actions to add new criterias to the list, and calls the onEdit callback to render the new screen.
+ * @param {{option: string; value: string }[]} data - WILL CHANGE WHEN STORE IS IMPLEMENTED.
+ * @param {CriteriaListType} type - Defines which type of Criteria List is, that changes some colors in the view.
+ * @param {() => void} onEdit - Callback function to be called when the Edit button is pressed.
+ */
+const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerProps) => {
+  const [listState, setListState] = useState<ListState>({
     isAdding: false,
   });
 
-  const [inputFormState, setInputFormState] = useState<IInputState>({
+  const [inputFormState, setInputFormState] = useState<InputState>({
     selectedOptionId: options[0].id,
     inputValue: '',
   });
@@ -52,6 +45,9 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
     setListState(state => ({ ...state, isAdding }));
   };
 
+  /***
+   * Cleaning function to be called in the Form Cancel event.
+   */
   const handleFormCancel = () => {
     setListState(state => ({
       ...state,
@@ -62,7 +58,12 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
     toggleAdding(false);
   };
 
-  const handleFormSubmit = () => {
+  /***
+   * Used in the Form Submit of the CriteriaList Input and the click of the right icon in the same component (both means the user saving a new criteria).
+   * It uses the current Input Form State values.
+   * Handles the Add New Criteria operation with the store.
+   */
+  const handleAddCriteria = () => {
     const { inputValue, selectedOptionId } = inputFormState;
 
     setListState(state => ({ ...state, isAdding: false }));
@@ -94,7 +95,7 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
   const { isAdding } = listState;
 
   const { title, buttonsClasses } =
-    type === CriteraListType.Allow
+    type === CriteriaListType.Allow
       ? { title: 'Allow', buttonsClasses: `${styles.listBtn} ${styles.allowListBtn}` }
       : { title: 'Block', buttonsClasses: `${styles.listBtn} ${styles.blockListBtn}` };
 
@@ -115,7 +116,7 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
       ) : (
         <TickIcon width={20} height={20} />
       ),
-      onClick: !isAdding ? () => toggleAdding(true) : handleFormSubmit,
+      onClick: !isAdding ? () => toggleAdding(true) : handleAddCriteria,
     },
   ];
 
@@ -127,7 +128,7 @@ const CriteriaListController = ({ data, type, onEdit }: ICriteriaListControllerP
       selectProps={{ options, onChange: handleSelectChange }}
       inputProps={{
         onChange: handleInputChange,
-        onSubmit: handleFormSubmit,
+        onSubmit: handleAddCriteria,
         autofocus: true,
       }}
     />

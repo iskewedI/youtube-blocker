@@ -3,19 +3,21 @@ import CrossIcon from '../common/icons/CrossIcon';
 import TickIcon from '../common/icons/TickIcon';
 import Tag from './Tag';
 
-interface ITagControllerProps {
+interface TagControllerProps {
   title: string;
   onRemove: () => void;
   onEdit: (newValue: string) => void;
   classes?: string;
 }
 
-export interface ITag {
-  id: string;
-  title: string;
-}
-
-const TagController = ({ title, classes, onRemove, onEdit }: ITagControllerProps) => {
+/***
+ * Controller for the Tag. Handles the states and function events.
+ * @param {string} title - Title to be initially rendered in the tag.
+ * @param {() => void} onRemove - Callback function to be called when the tag is removed.
+ * @param {(newValue: string) => void} - Callback function to be called when the tag is edited. The new value is passed as first parameter.
+ * @param {string} classes - Optional classes to be passed to the tag container.
+ */
+const TagController = ({ title, onRemove, onEdit, classes }: TagControllerProps) => {
   const [isHover, setIsHover] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [tagValue, setTagValue] = useState(title);

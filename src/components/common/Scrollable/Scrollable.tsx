@@ -1,43 +1,12 @@
-import React, {
-  CSSProperties,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-import { uuid } from '../../service/utils';
-import Button from '../common/Button';
-import ArrowIcon, { Direction } from '../common/icons/ArrowIcon';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { uuid } from '../../../service/utils';
+import Button from '../Button';
+import ArrowIcon, { Direction } from '../icons/ArrowIcon';
 import styles from './scrollable.module.css';
-
-interface DOMData {
-  containerWidth: number;
-  pagesCount: number;
-}
-
-export enum IScrollableType {
-  Vertical = 1,
-  Horizontal,
-}
-
-interface IScrollableChildren {
-  style?: CSSProperties;
-  ref?: React.RefObject<Element>;
-}
-
-interface IScrollState {
-  isScrolling: boolean;
-  itemsOffset: {
-    x: number;
-    y: number;
-  };
-  currentPage: number;
-  pagesCount: number;
-}
 
 const CHILDREN_CONTAINER_ID = uuid();
 
-export interface IScrollableProps {
+interface ScrollableProps {
   containerRef: React.RefObject<HTMLDivElement>;
   containerClasses?: string;
   slideTimeMs?: number;
@@ -46,6 +15,15 @@ export interface IScrollableProps {
   itemsPerPage: number;
 }
 
+/***
+ * Generic component that expects a list of childs as children and handles all the horizontal scroll and pagination logic.
+ * @param {React.RefObject<HTMLDivElement>} containerRef - Object ref of the container of this component.
+ * @param {string} containerClasses - Optional classes to be passed to the rendered container of this component.
+ * @param {number} slideTimeMs - Slide animation time in milliseconds. If lower, the animation will be faster.
+ * @param {React.ReactNode} children - List of react node childs.
+ * @param {number} itemsWidth - Expected width of each child.
+ * @param {number} itemsPerPage - Amount of items per page that should be rendered.
+ */
 const Scrollable = ({
   containerRef,
   containerClasses = '',
@@ -53,8 +31,8 @@ const Scrollable = ({
   children,
   itemsWidth,
   itemsPerPage,
-}: IScrollableProps) => {
-  const [scrollState, setScrollState] = useState<IScrollState>({
+}: ScrollableProps) => {
+  const [scrollState, setScrollState] = useState<ScrollState>({
     isScrolling: false,
     itemsOffset: {
       x: 0,
@@ -75,12 +53,17 @@ const Scrollable = ({
     Array.from(React.Children.toArray(children), () => React.createRef<Element>())
   );
 
+  /***
+   * Used on the click of the Left|Right arrows button to handle the scroll operation.
+   * It multiplies the itemsPerPage by the itemsWidth to get the distance to move.
+   * @param {Direction} direction - The direction to where do the scroll
+   */
   const handleBtnScroll = (direction: Direction) => {
     const { isScrolling, itemsOffset, currentPage } = scrollState;
 
     if (isScrolling) return;
 
-    let newOffset: IScrollState['itemsOffset'] = { ...itemsOffset };
+    let newOffset: ScrollState['itemsOffset'] = { ...itemsOffset };
     let newPage = currentPage;
 
     if (direction === Direction.Left) {
@@ -110,6 +93,11 @@ const Scrollable = ({
     );
   };
 
+  /***
+   * Returns the data that is only accesible by using the native DOM.
+   * @param {React.RefObject<Element>[]} childrenRefs - Array of childs refs object. Used to get the total pages.
+   * @param {HTMLDivElement} container - The reference to the div element container. Used to get the current scrollable container width.
+   */
   const getDOMData = useCallback(
     (childrenRefs: React.RefObject<Element>[], container: HTMLDivElement): DOMData => {
       const data: DOMData = {
@@ -152,6 +140,11 @@ const Scrollable = ({
     []
   );
 
+  /***
+   * Calls getDOMData if there're all the refs provided and then sets the data to the state.
+   * @param {React.RefObject<Element>[]} childrenRefs - Array of childs refs object.
+
+   */
   const setDOMInfo = useCallback(
     (childrenRefs: React.RefObject<Element>[]): void => {
       let checkInterval: NodeJS.Timeout;
@@ -169,11 +162,14 @@ const Scrollable = ({
     [setScrollState, getDOMData, containerRef]
   );
 
+  /***
+   * Hook used to map the children element and set its dynamic values (like the style with a new transform value when moving).
+   */
   useLayoutEffect(() => {
     const refsObject: React.RefObject<Element>[] = [];
 
     const mapped = React.Children.map(children, (child, index) => {
-      if (!React.isValidElement<IScrollableChildren>(child)) {
+      if (!React.isValidElement<ScrollableChildren>(child)) {
         return child;
       }
 

@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import { uuid } from '../../service/utils';
-import DayPicker, { IDay } from './DayPicker';
+import DayPicker from './DayPicker';
 
-interface IDayPickerControllerProps {
+interface DayPickerControllerProps {
   enabled?: boolean;
 }
 
-const DayPickerController = ({ enabled = true }: IDayPickerControllerProps) => {
-  const [days, setDays] = useState<IDay[]>([
+/***
+ * Controller for the DayPicker. It handles the click events, and the calls/operations to the store.
+ * @param {boolean} enabled - Boolean that defines if the entire component should be enabled or disabled to the end user. If disabled, the component is in grey scale and is
+ * not usable
+ */
+const DayPickerController = ({ enabled = true }: DayPickerControllerProps) => {
+  const [days, setDays] = useState<Day[]>([
     { id: uuid(), title: 'Mo', active: false },
     { id: uuid(), title: 'Tu', active: true },
     { id: uuid(), title: 'We', active: false },
@@ -17,6 +22,10 @@ const DayPickerController = ({ enabled = true }: IDayPickerControllerProps) => {
     { id: uuid(), title: 'Su', active: true },
   ]);
 
+  /***
+   * Sets the new active day by its id.
+   * @param {string} id - Id of the clicked day.
+   */
   const handleDayClick = (id: string) => {
     if (!enabled) return;
 

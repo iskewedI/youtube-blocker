@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactElement } from 'react';
 import styles from './common.module.css';
 
-export interface IButtonProps {
+interface ButtonProps {
   title?: string;
   onClick?: () => void;
   classes?: string;
@@ -9,8 +9,16 @@ export interface IButtonProps {
   style?: CSSProperties;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
-  ({ style, classes = '', title = '', children, onClick }: IButtonProps, ref) => {
+/***
+ * Renders a common Button component with standarized classes. It's a forwardRef value for later user in the Scrollable component (we need to get this ref).
+ * @param {CSSProperties} style - Object with Javascript styles.
+ * @param {string} classes - Aditional classes to be applied.
+ * @param {string} title - Title of the button.
+ * @param {ReactElement} children - Any React Element to be rendered (ex. Icons).
+ * @param {() => void} onClick - Callback function to be called in the onClick event.
+ */
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ style, classes = '', title = '', children, onClick }: ButtonProps, ref) => {
     return (
       <button
         style={style}
