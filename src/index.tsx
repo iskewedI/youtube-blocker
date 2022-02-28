@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom';
 import AppController from './components/App/AppController';
 import reportWebVitals from './reportWebVitals';
 import './global.css';
+import configureStore from './store/configureStore';
+import { Provider } from 'react-redux';
+
+const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppController />
+    <Provider store={store}>
+      <AppController />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

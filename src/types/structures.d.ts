@@ -3,6 +3,11 @@ interface Profile {
   title: string;
 }
 
+interface ProfileData {
+  id?: string;
+  name?: string;
+}
+
 interface Criteria {
   id: string;
   name: string;
@@ -49,4 +54,9 @@ interface ScrollableChildren {
 interface Tag {
   id: string;
   title: string;
+}
+
+interface Entity {
+  id: string;
+  name: string;
 }

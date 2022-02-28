@@ -8,42 +8,35 @@ import { uuid } from '../../service/utils';
 import { Screens } from '../../types/enums';
 
 interface NavbarProps {
-  profiles: Profile[];
-  activeProfile: string;
+  items: Entity[];
+  activeItem: string;
   onChangeScreen: (newScreen: Screens) => void;
-  onProfileClick: (id: string) => void;
+  onItemClick: (id: string) => void;
 }
 /***
- * Renders a Scrollable row with buttons as profiles, and a container for screen-links buttons
- * @param {Profile[]} profiles - Array of profiles to be rendered
- * @param {string} activeProfile - ID of the current active profile
- * @param {(id: string) => void} onProfileClick - Callback to be called in the profile button onClick event
+ * Renders a Scrollable row with buttons as items, and a container for screen-links buttons
+ * @param {Entity[]} items - Array of items to be rendered
+ * @param {string} activeItem - ID of the current active item
+ * @param {(id: string) => void} onItemClick - Callback to be called in the item button onClick event
  * @param {(newScreen: Screens) => void} onChangeScreen - Callback to be called to fires the change screen event.
  */
-const Navbar = ({
-  profiles,
-  activeProfile,
-  onProfileClick,
-  onChangeScreen,
-}: NavbarProps) => {
+const Navbar = ({ items, activeItem, onItemClick, onChangeScreen }: NavbarProps) => {
   const containerRef = createRef<HTMLDivElement>();
 
   return (
     <div className={styles.container} ref={containerRef}>
       <Scrollable
-        containerClasses={styles.profilesContainer}
+        containerClasses={styles.itemsContainer}
         containerRef={containerRef}
         itemsWidth={74}
         itemsPerPage={4}
       >
-        {profiles.map(({ id, title }) => (
+        {items.map(({ id, name }) => (
           <Button
             key={uuid()}
-            classes={`${styles.profile} ${
-              (id === activeProfile && styles.profileActive) || ''
-            }`}
-            onClick={() => onProfileClick(id)}
-            children={<div className={styles.profileTitle}>{title}</div>}
+            classes={`${styles.item} ${(id === activeItem && styles.activeItem) || ''}`}
+            onClick={() => onItemClick(id)}
+            children={<div className={styles.itemTitle}>{name}</div>}
           />
         ))}
       </Scrollable>
