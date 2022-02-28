@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import Navbar from './Navbar';
-import { uuid } from '../../service/utils';
-import { Screens } from '../../types/enums';
+import { useEffect, useState } from "react";
+import Navbar from "./Navbar";
+import { uuid } from "../../service/utils";
+import { Screens } from "../../types/enums";
+import { useDispatch, useSelector } from "react-redux";
+import { changeSelectedProfile, getUserProfiles } from "../../store/profileReducer";
 
-const profiles: Profile[] = [
-  { title: 'Study', id: uuid() },
-  { title: 'Work', id: uuid() },
-  { title: 'Kids', id: uuid() },
-  { title: 'Games', id: uuid() },
-];
+// const profiles: Profile[] = [
+//   { name: "Study", id: uuid() },
+//   { name: "Work", id: uuid() },
+//   { name: "Kids", id: uuid() },
+//   { name: "Games", id: uuid() },
+// ];
 
 interface NavbarControllerProps {
   onChangeScreen: (newScreen: Screens) => void;
@@ -18,8 +20,21 @@ interface NavbarControllerProps {
 /***
  * Controller for the Navbar view. Handles the state functions and click events, and all the store calls/operations.
  */
-const NavbarController = ({ onChangeScreen, currentScreen }: NavbarControllerProps) => {
-  const [active, setActive] = useState<string>(profiles[0]?.id || '');
+const NavbarController = ({
+  onChangeScreen,
+  currentScreen,
+}: NavbarControllerProps) => {
+  const [active, setActive] = useState<string>("");
+
+  const dispatch = useDispatch();
+
+  const profiles = useSelector(getUserProfiles);
+
+  useEffect(() => {
+    if (!active && profiles.length > 0) {
+      setActive(profiles[0].id);
+    }
+  }, [active, setActive, profiles]);
 
   /***
    * Sets the new active profile by its id.
@@ -27,6 +42,9 @@ const NavbarController = ({ onChangeScreen, currentScreen }: NavbarControllerPro
    */
   const handleProfileClick = (id: string) => {
     setActive(id);
+
+    dispatch(changeSelectedProfile(id));
+    
     if (currentScreen !== Screens.Profiles) {
       onChangeScreen(Screens.Profiles);
     }
@@ -34,10 +52,10 @@ const NavbarController = ({ onChangeScreen, currentScreen }: NavbarControllerPro
 
   return (
     <Navbar
-      profiles={profiles}
-      onProfileClick={handleProfileClick}
+      items={profiles}
+      onItemClick={handleProfileClick}
       onChangeScreen={onChangeScreen}
-      activeProfile={active}
+      activeItem={active}
     />
   );
 };

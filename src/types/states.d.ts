@@ -2,11 +2,6 @@ interface ProfileState {
   isEditing: boolean;
   editingProfileId: string | null;
   editingProfileType: CriteraListType | null;
-  alwaysEnabled: boolean;
-  enabledInRange: {
-    from: string;
-    to: string;
-  };
 }
 
 interface ListState {
@@ -35,4 +30,14 @@ interface ScrollState {
 
 interface AppState {
   currentScreen: Screens;
+}
+
+// Store
+
+interface ProfilesInitialState {
+  isLoading: boolean,
+  hasError: boolean,
+  profilesLoaded: boolean,
+  userProfiles: Profile[],
+  selectedProfileId: string,
 }

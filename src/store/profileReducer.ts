@@ -74,32 +74,33 @@ export const requestProfiles = (dispatch: AppDispatch, getState: any) => {
   });
 
   try {
+    const mockedProfiles: Profile[] = [
+      {
+        id: uuid(),
+        name: 'Work',
+        alwaysEnabled: true,
+        criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
+        enabledInDays: [false, false, true, false, false, true, true],
+        enabledInRange: { from: '16:00', to: '17:00' },
+      },
+      {
+        id: uuid(),
+        name: 'Study',
+        alwaysEnabled: false,
+        criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
+        enabledInDays: [false, true, true, true, false, false, true],
+        enabledInRange: { from: '09:00', to: '12:00' },
+      },
+    ];
+  
+    return dispatch({
+      type: profilesReceived.type,
+      payload: {
+        profiles: mockedProfiles,
+      },
+    });
   } catch (error) {}
-  const mockedProfiles: Profile[] = [
-    {
-      id: uuid(),
-      name: 'Work',
-      alwaysEnabled: true,
-      criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
-      enabledInDays: [false, false, true, false, false, true, true],
-      enabledInRange: { from: '16:00', to: '17:00' },
-    },
-    {
-      id: uuid(),
-      name: 'Study',
-      alwaysEnabled: false,
-      criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
-      enabledInDays: [false, true, true, true, false, false, true],
-      enabledInRange: { from: '09:00', to: '12:00' },
-    },
-  ];
 
-  return dispatch({
-    type: profilesReceived.type,
-    payload: {
-      profiles: mockedProfiles,
-    },
-  });
 };
 
 export const changeSelectedProfile =

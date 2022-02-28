@@ -1,11 +1,24 @@
 interface Profile {
   id: string;
-  title: string;
+  name: string;
+  enabledInDays: boolean[];
+  criterias: Criteria[];
+  alwaysEnabled: boolean;
+  enabledInRange: {
+    from: string;
+    to: string;
+  };
 }
 
 interface ProfileData {
   id?: string;
   name?: string;
+  enabledInDays?: boolean[];
+  alwaysEnabled?: boolean;
+  enabledInRange?: {
+    from: string;
+    to: string;
+  };
 }
 
 interface Criteria {
