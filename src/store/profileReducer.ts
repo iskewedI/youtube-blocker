@@ -1,14 +1,15 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { formatTime, uuid } from '../service/utils';
+import { formatTime } from '../service/utils';
 import { TimeRange } from '../types/enums';
 import { AppDispatch, RootState } from './configureStore';
 
 const initialState: ProfilesInitialState = {
   isLoading: false,
   hasError: false,
-  profilesLoaded: false,
-  userProfiles: [],
+  hasLoaded: false,
   selectedProfileId: '',
+  byId: {},
+  allIds: [],
 };
 
 const slice = createSlice({
@@ -19,19 +20,22 @@ const slice = createSlice({
       store.isLoading = true;
     },
     profilesReceived: (store, action) => {
-      store.userProfiles = action.payload.profiles;
-      if (action.payload.profiles && action.payload.profiles.length > 0) {
-        store.selectedProfileId = action.payload.profiles[0].id;
+      store.allIds = action.payload.allIds;
+      store.byId = action.payload.byId;
+
+      if (action.payload.allIds && action.payload.allIds.length > 0) {
+        store.selectedProfileId = action.payload.allIds[0];
       }
 
-      store.profilesLoaded = true;
+      store.hasLoaded = true;
       store.isLoading = false;
       store.hasError = false;
     },
     profilesRequestFailed: store => {
-      store.userProfiles = [];
+      store.byId = {};
+      store.allIds = [];
 
-      store.profilesLoaded = true;
+      store.hasLoaded = true;
       store.isLoading = false;
       store.hasError = true;
     },
@@ -39,15 +43,18 @@ const slice = createSlice({
       store.selectedProfileId = action.payload.selectedProfileId;
     },
     profileModified: (store, action) => {
-      const { id, data } = action.payload;
+      const { id, data }: { id: string; data: Partial<Profile> } = action.payload;
 
-      const profileIndex = store.userProfiles.findIndex(profile => profile.id === id);
-      if (profileIndex < 0)
-        return console.error('Could not find the profile with id => ', id);
+      const profile = store.byId[id];
 
-      const modifiedProfile = { ...store.userProfiles[profileIndex], ...data };
+      if (!profile) return console.error('Could not find the profile with id => ', id);
 
-      store.userProfiles[profileIndex] = modifiedProfile;
+      const modifiedProfile = {
+        ...profile,
+        ...data,
+      };
+
+      store.byId[id] = modifiedProfile;
     },
   },
 });
@@ -63,7 +70,6 @@ const {
 export default slice.reducer;
 
 // Action creators
-
 export const requestProfiles = (dispatch: AppDispatch, getState: any) => {
   const { isLoading } = getState().profile;
 
@@ -74,38 +80,48 @@ export const requestProfiles = (dispatch: AppDispatch, getState: any) => {
   });
 
   try {
-    const mockedProfiles: Profile[] = [
-      {
-        id: uuid(),
+    const byId: ProfileList = {
+      Work_Profile_ID: {
+        id: 'Work_Profile_ID',
         name: 'Work',
         alwaysEnabled: true,
-        criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
+        criterionListIds: ['Allow_CriterionList_ID_1', 'Block_CriterionList_ID_1'],
         enabledInDays: [false, false, true, false, false, true, true],
         enabledInRange: { from: '16:00', to: '17:00' },
+        isEditing: false,
+        editingCriteriaType: null,
       },
-      {
-        id: uuid(),
+      Study_Profile_ID: {
+        id: 'Study_Profile_ID',
         name: 'Study',
         alwaysEnabled: false,
-        criterias: [{ id: uuid(), name: 'Allow', tags: [{ id: uuid(), title: 'Tag1' }] }],
+        criterionListIds: ['Allow_CriterionList_ID_2', 'Block_CriterionList_ID_2'],
         enabledInDays: [false, true, true, true, false, false, true],
         enabledInRange: { from: '09:00', to: '12:00' },
+        isEditing: false,
+        editingCriteriaType: null,
       },
-    ];
-  
+    };
+
+    const allIds: string[] = ['Work_Profile_ID', 'Study_Profile_ID'];
+
     return dispatch({
       type: profilesReceived.type,
       payload: {
-        profiles: mockedProfiles,
+        byId,
+        allIds,
       },
     });
-  } catch (error) {}
-
+  } catch (error) {
+    dispatch({
+      type: profilesRequestFailed.type,
+    });
+  }
 };
 
 export const changeSelectedProfile =
   (id: string) => (dispatch: AppDispatch, getState: any) => {
-    const { selectedProfileId } = getState().profile;
+    const { selectedProfileId }: ProfilesInitialState = getState().profile;
     if (id === selectedProfileId) return;
 
     dispatch({
@@ -119,13 +135,12 @@ export const changeSelectedProfile =
 export const setEnabledRange =
   (profileId: string, newTime: string, type: TimeRange) =>
   (dispatch: AppDispatch, getState: any) => {
-    const { userProfiles } = getState().profile;
+    const { byId }: ProfilesInitialState = getState().profile;
 
-    const selectedProfile: Profile = userProfiles.find(
-      (profile: Profile) => profile.id === profileId
-    );
+    const selectedProfile = byId[profileId];
 
-    if (!selectedProfile) return console.error('Could not find the selected profile');
+    if (!selectedProfile)
+      return console.error('Could not find the profile with id => ', profileId);
 
     const validatorRegex = /^([0-9]|0[0-9]|1?[0-9]|2[0-3]):[0-5]?[0-9]$/g;
 
@@ -154,7 +169,7 @@ export const setEnabledRange =
   };
 
 export const setProfileData =
-  (profileId: string, data: ProfileData) => (dispatch: AppDispatch) => {
+  (profileId: string, data: Partial<Profile>) => (dispatch: AppDispatch) => {
     dispatch({
       type: profileModified.type,
       payload: {
@@ -165,19 +180,17 @@ export const setProfileData =
   };
 
 // Selectors
-
 export const getUserProfiles = createSelector(
   (state: RootState) => state.profile,
-  profile => profile.userProfiles
+  ({ allIds, byId }) => allIds.map(id => byId[id])
 );
 
 export const getUserProfilesLoaded = createSelector(
   (state: RootState) => state.profile,
-  profile => profile.profilesLoaded
+  profile => profile.hasLoaded
 );
 
 export const getSelectedProfile = createSelector(
   (state: RootState) => state.profile,
-  ({ userProfiles, selectedProfileId }) =>
-    userProfiles.find(profile => profile.id === selectedProfileId)
+  ({ byId, selectedProfileId }) => byId[selectedProfileId]
 );
