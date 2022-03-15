@@ -1,33 +1,19 @@
-import { useEffect, useState } from "react";
-import Navbar from "./Navbar";
-import { uuid } from "../../service/utils";
-import { Screens } from "../../types/enums";
-import { useDispatch, useSelector } from "react-redux";
-import { changeSelectedProfile, getUserProfiles } from "../../store/profileReducer";
-
-// const profiles: Profile[] = [
-//   { name: "Study", id: uuid() },
-//   { name: "Work", id: uuid() },
-//   { name: "Kids", id: uuid() },
-//   { name: "Games", id: uuid() },
-// ];
-
-interface NavbarControllerProps {
-  onChangeScreen: (newScreen: Screens) => void;
-  currentScreen: Screens;
-}
+import { useEffect, useState } from 'react';
+import Navbar from './Navbar';
+import { Screens } from '../../types/enums';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeSelectedProfile, getUserProfiles } from '../../store/profileReducer';
+import { changeScreen, getCurrentScreen } from '../../store/screenReducer';
 
 /***
  * Controller for the Navbar view. Handles the state functions and click events, and all the store calls/operations.
  */
-const NavbarController = ({
-  onChangeScreen,
-  currentScreen,
-}: NavbarControllerProps) => {
-  const [active, setActive] = useState<string>("");
+const NavbarController = () => {
+  const [active, setActive] = useState<string>('');
 
   const dispatch = useDispatch();
 
+  const currentScreen = useSelector(getCurrentScreen);
   const profiles = useSelector(getUserProfiles);
 
   useEffect(() => {
@@ -35,6 +21,16 @@ const NavbarController = ({
       setActive(profiles[0].id);
     }
   }, [active, setActive, profiles]);
+
+  const handleChangeScreen = (screen: Screens) => {
+    let newScreen: Screens = screen;
+
+    if (currentScreen !== Screens.Profiles) {
+      newScreen = Screens.Profiles;
+    }
+
+    dispatch(changeScreen(newScreen));
+  };
 
   /***
    * Sets the new active profile by its id.
@@ -44,17 +40,15 @@ const NavbarController = ({
     setActive(id);
 
     dispatch(changeSelectedProfile(id));
-    
-    if (currentScreen !== Screens.Profiles) {
-      onChangeScreen(Screens.Profiles);
-    }
+
+    handleChangeScreen(Screens.Profiles);
   };
 
   return (
     <Navbar
       items={profiles}
       onItemClick={handleProfileClick}
-      onChangeScreen={onChangeScreen}
+      onChangeScreen={handleChangeScreen}
       activeItem={active}
     />
   );

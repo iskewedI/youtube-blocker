@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './common.module.css';
 
 export interface InputProps {
+  value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
   onSubmit?: (text: string) => void;
@@ -13,6 +14,7 @@ export interface InputProps {
 
 /***
  * Renders a Form with Input component, to handle the onChange and onSubmit event properly.
+ * @param {string} value - Optional value parameter to make this component a controlled one.
  * @param {string} placeholder - Text for the input placeholder.
  * @param {(text: string) => void} onSubmit - Callback function to be called in the onSubmit event.
  * @param {(value: string) => void} onChange - Callback function to be called in the onChange event.
@@ -21,6 +23,7 @@ export interface InputProps {
  * @param {CSSProperties} formStyle - Object with Javascript styles to be applied to the form.
  */
 const Input = ({
+  value,
   placeholder = '',
   onSubmit,
   onChange,
@@ -28,13 +31,13 @@ const Input = ({
   startValue = '',
   formStyle,
 }: InputProps) => {
-  const [value, setValue] = useState<string>(startValue);
+  const [inputValue, setInputValue] = useState<string>(startValue);
 
-  const handleChange = (value: string) => {
-    setValue(value);
+  const handleChange = (newValue: string) => {
+    setInputValue(newValue);
 
     if (onChange && typeof onChange === 'function') {
-      onChange(value);
+      onChange(newValue);
     }
   };
 
@@ -46,14 +49,20 @@ const Input = ({
     evt.preventDefault();
 
     if (onSubmit && typeof onSubmit === 'function') {
-      onSubmit(value);
+      onSubmit(inputValue);
     }
   };
+
+  useEffect(() => {
+    if (typeof value === 'string' && value !== inputValue) {
+      setInputValue(value);
+    }
+  }, [value, inputValue, setInputValue]);
 
   return (
     <form onSubmit={handleSubmit} style={formStyle}>
       <input
-        value={value}
+        value={inputValue}
         onChange={evt => handleChange(evt.target.value)}
         className={styles.formInput}
         placeholder={placeholder}
