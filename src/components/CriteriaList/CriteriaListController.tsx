@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ListIcon from '../common/icons/ListIcon';
 import PlusIcon from '../common/icons/PlusIcon';
 import CrossIcon from '../common/icons/CrossIcon';
@@ -7,39 +7,59 @@ import CriteriaList from './CriteriaList';
 import styles from './criteria_list.module.css';
 import { uuid } from '../../service/utils';
 import { CriteriaListType } from '../../types/enums';
-
-const options = [
-  {
-    id: uuid(),
-    title: 'Tags',
-  },
-  {
-    id: uuid(),
-    title: 'Titles',
-  },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { createTag } from '../../store/tagReducer';
+import { appendTagIds, getCriterias } from '../../store/criteriaReducer';
 
 interface CriteriaListControllerProps {
-  data: { option: string; value: string }[];
   type: CriteriaListType;
+  criteriaIds: string[];
   onEdit: () => void;
 }
 
 /***
  * Controller for the CriteriaList view. Handles the buttons form/input actions to add new criterias to the list, and calls the onEdit callback to render the new screen.
- * @param {{option: string; value: string }[]} data - WILL CHANGE WHEN STORE IS IMPLEMENTED.
  * @param {CriteriaListType} type - Defines which type of Criteria List is, that changes some colors in the view.
+ * @param {string[]} criteriaIds - String array containing the criteria ID's that will be rendered as options
  * @param {() => void} onEdit - Callback function to be called when the Edit button is pressed.
  */
-const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerProps) => {
+const CriteriaListController = ({
+  type,
+  criteriaIds,
+  onEdit,
+}: CriteriaListControllerProps) => {
   const [listState, setListState] = useState<ListState>({
     isAdding: false,
   });
 
   const [inputFormState, setInputFormState] = useState<InputState>({
-    selectedOptionId: options[0].id,
+    selectedOptionId: '',
     inputValue: '',
   });
+
+  const dispatch = useDispatch();
+
+  const criterias = useSelector(getCriterias);
+
+  const currentCriterias = useMemo(
+    () => criterias.filter(criteria => criteriaIds.includes(criteria.id)),
+    [criterias, criteriaIds]
+  );
+
+  const selectOptions: SelectOption[] = useMemo(
+    () =>
+      currentCriterias.map(criteria => ({
+        id: criteria.id,
+        title: criteria.name,
+      })),
+    [currentCriterias]
+  );
+
+  useEffect(() => {
+    if (!inputFormState.selectedOptionId && currentCriterias.length > 0) {
+      setInputFormState({ selectedOptionId: currentCriterias[0].id, inputValue: '' });
+    }
+  }, [currentCriterias, inputFormState.selectedOptionId, setInputFormState]);
 
   const toggleAdding = (isAdding: boolean) => {
     setListState(state => ({ ...state, isAdding }));
@@ -49,9 +69,9 @@ const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerPr
    * Cleaning function to be called in the Form Cancel event.
    */
   const handleFormCancel = () => {
-    setListState(state => ({
+    setInputFormState(state => ({
       ...state,
-      selectedOptionId: options[0].id,
+      selectedOptionId: currentCriterias[0].id,
       inputValue: '',
     }));
 
@@ -66,22 +86,14 @@ const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerPr
   const handleAddCriteria = () => {
     const { inputValue, selectedOptionId } = inputFormState;
 
-    setListState(state => ({ ...state, isAdding: false }));
-
     if (!inputValue) return;
 
-    const selectedOption = options.find(option => option.id === selectedOptionId);
+    const tag = { title: inputValue, id: uuid() };
 
-    if (!selectedOption)
-      return console.error(
-        'Could not find selected option with id => ',
-        selectedOptionId
-      );
+    dispatch(createTag(tag));
+    dispatch(appendTagIds(selectedOptionId, [tag.id]));
 
-    data.push({
-      option: selectedOption.title,
-      value: inputValue,
-    });
+    setInputFormState(state => ({ ...state, inputValue: '' }));
   };
 
   const handleSelectChange = (selectedOptionId: string) => {
@@ -125,8 +137,9 @@ const CriteriaListController = ({ data, type, onEdit }: CriteriaListControllerPr
       title={title}
       buttons={buttons}
       renderInput={isAdding}
-      selectProps={{ options, onChange: handleSelectChange }}
+      selectProps={{ options: selectOptions, onChange: handleSelectChange }}
       inputProps={{
+        value: inputFormState.inputValue,
         onChange: handleInputChange,
         onSubmit: handleAddCriteria,
         autofocus: true,

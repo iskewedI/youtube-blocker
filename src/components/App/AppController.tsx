@@ -1,32 +1,44 @@
-import { useState } from 'react';
-import { Screens } from '../../types/enums';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCriteriasLoaded, requestCriteria } from '../../store/criteriaReducer';
+import {
+  getCriterionListsLoaded,
+  requestCriterionLists,
+} from '../../store/criterionListReducer';
+import { getUserProfilesLoaded, requestProfiles } from '../../store/profileReducer';
+import { getCurrentScreen } from '../../store/screenReducer';
+import { getTagsLoaded, requestTags } from '../../store/tagReducer';
 import App from './App';
 
 /***
  * Controller for the Main App component. Handles the events and most generic calls to the store.
  */
 const AppController = () => {
-  const [appState, setAppState] = useState<AppState>({
-    currentScreen: Screens.Profiles,
-  });
+  const dispatch = useDispatch();
 
-  /***
-   * Function passed to each screen to handle the Change Screen event.
-   * Always the default screen will be the Profiles Screen.
-   */
-  const handleChangeScreen = (screen: Screens) => {
-    let newScreen = screen;
+  const currentScreen = useSelector(getCurrentScreen);
 
-    if (screen === appState.currentScreen) {
-      newScreen = Screens.Profiles;
+  const profilesLoaded = useSelector(getUserProfilesLoaded);
+  const criterionListsLoaded = useSelector(getCriterionListsLoaded);
+  const criteriaLoaded = useSelector(getCriteriasLoaded);
+  const tagsLoaded = useSelector(getTagsLoaded);
+
+  useEffect(() => {
+    if (!profilesLoaded) {
+      dispatch(requestProfiles);
     }
+    if (!criterionListsLoaded) {
+      dispatch(requestCriterionLists);
+    }
+    if (!criteriaLoaded) {
+      dispatch(requestCriteria);
+    }
+    if (!tagsLoaded) {
+      dispatch(requestTags);
+    }
+  }, [profilesLoaded, criterionListsLoaded, criteriaLoaded, tagsLoaded, dispatch]);
 
-    setAppState(state => ({ ...state, currentScreen: newScreen }));
-  };
-
-  return (
-    <App currentScreen={appState.currentScreen} onChangeScreen={handleChangeScreen} />
-  );
+  return <App currentScreen={currentScreen} />;
 };
 
 export default AppController;

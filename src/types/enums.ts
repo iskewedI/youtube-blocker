@@ -12,4 +12,11 @@ export enum Screens {
   Profiles = 1,
   Timer,
   Settings,
+  CriteriaPanel,
+}
+
+export enum Categories {
+  Tags = 1,
+  Titles,
+  Channels,
 }

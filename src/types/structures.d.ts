@@ -1,18 +1,40 @@
 interface Profile {
   id: string;
-  title: string;
+  name: string;
+  enabledInDays: boolean[];
+  criterionListIds: string[];
+  alwaysEnabled: boolean;
+  enabledInRange: {
+    from: string;
+    to: string;
+  };
+  isEditing: boolean;
+  editingCriteriaType: number | null;
+}
+
+interface ProfileList {
+  [id: string]: Profile;
 }
 
 interface Criteria {
   id: string;
   name: string;
-  tags: Tag[];
+  tagIds: string[];
+  category: Categories;
 }
 
 interface CriteriaList {
-  data: { option: string; value: string }[];
+  [id: string]: Criteria;
+}
+
+interface Criterion {
   id: string;
-  type: CriteraListType;
+  type: CriteriaListType;
+  criteriaIds: string[];
+}
+
+interface CriterionList {
+  [id: string]: Criterion;
 }
 
 interface CriteriaButtons {
@@ -24,10 +46,6 @@ interface CriteriaButtons {
 interface CriteriaChange {
   added: string[];
   removed: string[];
-}
-
-interface Changes {
-  [id: string]: CriteriaChange;
 }
 
 interface Day {
@@ -49,4 +67,13 @@ interface ScrollableChildren {
 interface Tag {
   id: string;
   title: string;
+}
+
+interface TagList {
+  [id: string]: Tag;
+}
+
+interface Entity {
+  id: string;
+  name: string;
 }

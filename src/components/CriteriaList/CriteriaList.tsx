@@ -43,6 +43,7 @@ const CriteriaList = ({
               autofocus={inputProps.autofocus}
               onSubmit={inputProps.onSubmit}
               onChange={inputProps.onChange}
+              value={inputProps.value}
             />
           </div>
         )) ||

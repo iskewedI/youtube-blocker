@@ -1,19 +1,16 @@
+import { useDispatch } from 'react-redux';
+import { changeScreen } from '../../../store/screenReducer';
+import { Screens } from '../../../types/enums';
 import Settings from './Settings';
 
-interface SettingsControllerProps {
-  onScreenReturn: () => void;
-}
+const SettingsController = () => {
+  const dispatch = useDispatch();
 
-const SettingsController = ({ onScreenReturn }: SettingsControllerProps) => {
-  const handleCancel = () => {
-    onScreenReturn();
+  const handleChangeScreen = () => {
+    dispatch(changeScreen(Screens.Profiles));
   };
 
-  const handleDone = () => {
-    onScreenReturn();
-  };
-
-  return <Settings onCancel={handleCancel} onDone={handleDone} />;
+  return <Settings onCancel={handleChangeScreen} onDone={handleChangeScreen} />;
 };
 
 export default SettingsController;

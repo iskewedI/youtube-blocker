@@ -1,14 +1,3 @@
-interface ProfileState {
-  isEditing: boolean;
-  editingProfileId: string | null;
-  editingProfileType: CriteraListType | null;
-  alwaysEnabled: boolean;
-  enabledInRange: {
-    from: string;
-    to: string;
-  };
-}
-
 interface ListState {
   isAdding: boolean;
 }
@@ -33,6 +22,27 @@ interface ScrollState {
   pagesCount: number;
 }
 
-interface AppState {
-  currentScreen: Screens;
+// Store
+interface Reducer {
+  isLoading: boolean;
+  hasError: boolean;
+  hasLoaded: boolean;
+  allIds: string[];
+}
+
+interface ProfilesInitialState extends Reducer {
+  byId: ProfileList;
+  selectedProfileId: string;
+}
+
+interface CriterionListInitialState extends Reducer {
+  byId: CriterionList;
+}
+
+interface CriteriaInitialState extends Reducer {
+  byId: CriteriaList;
+}
+
+interface TagInitialState extends Reducer {
+  byId: TagList;
 }

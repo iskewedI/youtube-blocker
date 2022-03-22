@@ -1,58 +1,38 @@
-import { useState } from 'react';
-import CriteriaPanelController from '../../CriteriaPanel/CriteriaPanelController';
 import Profile from './Profile';
-import { formatTime, uuid } from '../../../service/utils';
-import { CriteriaListType, TimeRange } from '../../../types/enums';
-
-const criterias = [
-  { id: uuid(), data: [], type: CriteriaListType.Allow },
-  { id: uuid(), data: [], type: CriteriaListType.Block },
-];
-
-interface ProfilerControllerProps {
-  id?: number;
-}
+import { CriteriaListType, Screens, TimeRange } from '../../../types/enums';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getSelectedProfile,
+  setEnabledRange,
+  setProfileData,
+} from '../../../store/profileReducer';
+import { changeScreen } from '../../../store/screenReducer';
+import { getCriterionLists } from '../../../store/criterionListReducer';
+import { useMemo } from 'react';
 
 /***
  * Controller for the Profile view. Handles the state, events functions and store calls/operations. For now, if is editing a profile, renders the CriteriaPanel too.
- * @param {number} id - Id of the Profile.
  */
-const ProfileController = ({ id }: ProfilerControllerProps) => {
-  const [profileState, setProfileState] = useState<ProfileState>({
-    isEditing: false,
-    editingProfileId: null,
-    editingProfileType: null,
-    alwaysEnabled: false,
-    enabledInRange: {
-      from: '00:30',
-      to: '09:30',
-    },
-  });
+const ProfileController = () => {
+  const dispatch = useDispatch();
 
-  /***
-   * Used when user ends the editing of a profile.
-   * Cleans the editing profile state.
-   */
-  const handleDoneEditing = () => {
-    setProfileState(state => ({
-      ...state,
-      isEditing: false,
-      editingProfileId: null,
-      editingProfileType: null,
-    }));
-  };
+  const selectedProfile = useSelector(getSelectedProfile);
+  const criterionLists = useSelector(getCriterionLists);
 
   const handleCriteriaEdit = (id: string, type: CriteriaListType) => {
-    setProfileState(state => ({
-      ...state,
-      isEditing: true,
-      editingProfileId: id,
-      editingProfileType: type,
-    }));
+    dispatch(
+      setProfileData(selectedProfile.id, { isEditing: true, editingCriteriaType: type })
+    );
+
+    dispatch(changeScreen(Screens.CriteriaPanel));
   };
 
   const handleAlwaysEnabledClick = () => {
-    setProfileState(state => ({ ...state, alwaysEnabled: !state.alwaysEnabled }));
+    dispatch(
+      setProfileData(selectedProfile.id, {
+        alwaysEnabled: !selectedProfile.alwaysEnabled,
+      })
+    );
   };
 
   /***
@@ -60,46 +40,27 @@ const ProfileController = ({ id }: ProfilerControllerProps) => {
    * Does a pre validation of the input time. It does not changes to the new requested time if the string do not satisfy the HH:MM format.
    */
   const handleTimeChange = (time: string, rangeType: TimeRange) => {
-    const validatorRegex = /^([0-9]|0[0-9]|1?[0-9]|2[0-3]):[0-5]?[0-9]$/g;
-
-    const validation = validatorRegex.test(time);
-    if (!validation) return;
-
-    let sanitized = formatTime(time);
-
-    setProfileState(state => {
-      const newRange = { ...state.enabledInRange };
-
-      if (rangeType === TimeRange.From) {
-        newRange.from = sanitized;
-      } else {
-        newRange.to = sanitized;
-      }
-
-      return { ...state, enabledInRange: newRange };
-    });
+    dispatch(setEnabledRange(selectedProfile.id, time, rangeType));
   };
 
-  if (profileState.isEditing) {
-    return (
-      <CriteriaPanelController
-        type={profileState.editingProfileType || CriteriaListType.Allow}
-        onDone={handleDoneEditing}
-      />
-    );
-  }
+  const profileCriterionLists = useMemo(
+    () =>
+      criterionLists.filter(criterion =>
+        selectedProfile?.criterionListIds.includes(criterion.id)
+      ),
+    [criterionLists, selectedProfile?.criterionListIds]
+  );
 
-  const {
-    alwaysEnabled,
-    enabledInRange: { from, to },
-  } = profileState;
+  if (!selectedProfile) return <div>Loading...</div>;
 
   return (
     <Profile
-      criterias={criterias}
-      enabledFrom={from}
-      enabledTo={to}
-      alwaysEnabled={alwaysEnabled}
+      id={selectedProfile.id}
+      criterionList={profileCriterionLists}
+      enabledFrom={selectedProfile.enabledInRange.from}
+      enabledTo={selectedProfile.enabledInRange.to}
+      enabledInDays={selectedProfile.enabledInDays}
+      alwaysEnabled={selectedProfile.alwaysEnabled}
       onCriteriaEdit={handleCriteriaEdit}
       onAlwaysEnabledClick={handleAlwaysEnabledClick}
       onTimeChange={handleTimeChange}

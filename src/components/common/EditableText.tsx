@@ -3,7 +3,7 @@ import Input from './Input';
 
 interface EditableTextProps {
   editing?: boolean;
-  text?: string;
+  text: string;
   onChange?: (newValue: string) => void;
   onSubmit?: (newValue: string) => void;
   onEditStart?: () => void;
@@ -12,8 +12,8 @@ interface EditableTextProps {
 }
 
 const EditableText = ({
-  editing = false,
-  text = '',
+  editing,
+  text,
   containerStyles = '',
   enabled = true,
   onChange,
@@ -21,7 +21,6 @@ const EditableText = ({
   onEditStart,
 }: EditableTextProps) => {
   const [isEditing, setIsEditing] = useState(editing);
-  const [textValue, setTextValue] = useState(text);
 
   const handleChange = (value: string) => {
     if (onChange && typeof onChange === 'function') {
@@ -59,20 +58,17 @@ const EditableText = ({
    * It'll force render the component if something has changed.
    */
   useEffect(() => {
-    if (editing !== isEditing) {
+    if (typeof editing === 'boolean' && editing !== isEditing) {
       setIsEditing(editing);
     }
-    if (text !== textValue) {
-      setTextValue(text);
-    }
-  }, [editing, text]);
+  }, [editing, isEditing, text]);
 
   return (
     <div className={containerStyles} onDoubleClick={handleDoubleClick}>
-      {!isEditing && textValue}
+      {!isEditing && text}
       {isEditing && (
         <Input
-          startValue={textValue}
+          startValue={text}
           onChange={handleChange}
           onSubmit={handleSubmit}
           autofocus={true}
